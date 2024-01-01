@@ -31,7 +31,7 @@ public class ReadInputField : MonoBehaviour
     public int BaseDef; //Def de base
     public float DefReduction; //
     public float DefIgnore;
-    public float DefFlat;
+    public int DefFlat;
     public static float Base100PercentOfDef = 1.00f; //Toujours égal a 1
 
     public float DefMultiplier;
@@ -55,6 +55,7 @@ public class ReadInputField : MonoBehaviour
 
     //WeakenMultiplier
     public static float Base100PercentOfWeakenMultiplier = 1.00f;//toujours 1
+    public float WeakenMultiplierPercentage;
 
     void Start()
     {
@@ -73,7 +74,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le SkillMultiplier");
         }
     }
     public void ReadExtraMultiplierInInputField(string extraMultiplier)
@@ -84,7 +85,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le ExtraMultiplier");
         }
     }
     public void ReadScalingAttributeInInputField(string scalingAttribute)
@@ -95,7 +96,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le ScalingAttribute");
         }
     }
     public void ReadExtraDamageInInputField(string extraDamage)
@@ -106,7 +107,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le ExtraDMG");
         }
     }
 
@@ -118,7 +119,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le ElementalDMGPercent");
         }
     }
     public void ReadAllTypeDamagePercentInInputField(string allTypeDamagePercent)
@@ -129,7 +130,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le AllTypeDamagePercent");
         }
     }
     public void ReadDOTDamagePercentInInputField(string dotDamagePercent)
@@ -140,7 +141,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le DOTDamagePercent");
         }
     }
     public void ReadOtherDamagePercentInInputField(string otherDamagePercent)
@@ -151,7 +152,19 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le OtherDMGPercent");
+        }
+    }
+
+    public void ReadAttackerLevelInInputField(string attackerLevel)
+    {
+        if (int.TryParse(attackerLevel, out AttackerLevel))
+        {
+            Debug.Log("AttackerLevel : " + AttackerLevel);
+        }
+        else
+        {
+            Debug.LogError("Attention valeur non conforme pour la BaseDef");
         }
     }
 
@@ -163,7 +176,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour la BaseDef");
         }
     }
     public void ReadDefReductionInInputField(string defReduction)
@@ -174,7 +187,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour la DefReduction");
         }
     }
     public void ReadDefIgnoreInInputField(string defIgnore)
@@ -185,18 +198,18 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour la DefIgnore");
         }
     }
     public void ReadDefFlatInInputField(string defFlat)
     {
-        if (float.TryParse(defFlat, out DefFlat))
+        if (int.TryParse(defFlat, out DefFlat))
         {
             Debug.Log("DefFlat : " + DefFlat);
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour la DefFlat");
         }
     }
 
@@ -208,7 +221,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le RESPercentage");
         }
     }
     public void ReadRESPENPercentageInInputField(string resPENPercentage)
@@ -219,7 +232,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour la RESPENPercentage");
         }
     }
 
@@ -231,7 +244,7 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le ElementalDMGTakenPercentage");
         }
     }
     public void ReadAllTypeDMGTakenPercentageInInputField(string allTypeDMGTakenPercent)
@@ -242,18 +255,29 @@ public class ReadInputField : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le AllTypeDMGTakenPercentage");
         }
     }
     public void ReadUniversalDMGReductionMultiplier(string universalDMGReductionMultiplier)
     {
         if (float.TryParse(universalDMGReductionMultiplier, out UniversalDMGReductionMultiplier))
         {
-            Debug.Log("UniversalDMGReductionMultiplier" + UniversalDMGReductionMultiplier);
+            Debug.Log("UniversalDMGReductionMultiplier : " + UniversalDMGReductionMultiplier);
         }
         else
         {
-            Debug.LogError("Attention valeur non conforme");
+            Debug.LogError("Attention valeur non conforme pour le UniversalDMGReductionMultiplier");
+        }
+    }
+    public void ReadWeakenMultiplierPercentage(string weakenMultiplierPercentage)
+    {
+        if (float.TryParse(weakenMultiplierPercentage, out WeakenMultiplierPercentage))
+        {
+            Debug.Log("WeakenMultiplierPercentage : " + WeakenMultiplierPercentage);
+        }
+        else
+        {
+            Debug.LogError("Attention valeur non conforme pour le WeakenMultiplierPercentage");
         }
     }
 }

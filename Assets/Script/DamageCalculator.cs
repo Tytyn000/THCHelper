@@ -31,7 +31,7 @@ public class DamageCalculator : MonoBehaviour
     public int BaseDef; //Def de base
     public float DefReduction; //
     public float DefIgnore;
-    public float DefFlat;
+    public int DefFlat;
     public static float Base100PercentOfDef = 1.00f; //Toujours égal a 1
 
     public float DefMultiplier;
@@ -56,6 +56,7 @@ public class DamageCalculator : MonoBehaviour
 
     //WeakenMultiplier
     public static float Base100PercentOfWeakenMultiplier = 1.00f;//toujours 1
+    public float WeakenMultiplierPercentage;
 
     public float DamageInOutput;
 
