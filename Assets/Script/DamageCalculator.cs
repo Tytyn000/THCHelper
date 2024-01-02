@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageCalculator : MonoBehaviour
 {
@@ -8,18 +9,18 @@ public class DamageCalculator : MonoBehaviour
     public float SkillMultiplier; //dégats en % du skill 
     public float ExtraMultiplier; //Spécifique : apparait par exemple sur dang heng avec les ennemis ralentis
     public int ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
-    public float ExtraDMG; //dgts flat sur certains skills : 
+    public float ExtraDamage; //dgts flat sur certains skills : 
     
-    public float BaseDMG;
+    public float BaseDamage;
 
     //DMG% MULTIPLIER
     public static float Base100PercentOfDamagePercentMultiplier = 1f; //toujours 1
-    public float ElementalDMGPercent; //Bonus Elementaires
+    public float ElementalDamagePercent; //Bonus Elementaires
     public float AllTypeDamagePercent; //ex Grand Duc + 20% sur les suivis
     public float DOTDamagePercent;
-    public float OtherDMGPercent; //Buff TingYun
+    public float OtherDamagePercent; //Buff TingYun
     
-    public float DMGPercentMultiplier;
+    public float DamagePercentMultiplier;
 
     //DEF MULTIPLIER
     public int AttackerLevel; //niveau de l'attaquant
@@ -44,14 +45,14 @@ public class DamageCalculator : MonoBehaviour
     public float RESMultiplier;
 
     //DMGTakenMultiplier
-    public static float Base100PercentOfDMGTakenMultiplier = 1.00f;
-    public float ElementalDMGTakenPercentage;
-    public float AllTypeDMGTakenPercentage;
+    public static float Base100PercentOfDamageTakenMultiplier = 1.00f;
+    public float ElementalDamageTakenPercentage;
+    public float AllTypeDamageTakenPercentage;
 
-    public float DMGTakenMultiplier; //ne peut dépasser 350%
+    public float DamageTakenMultiplier; //ne peut dépasser 350%
 
     //Universal DMG Reduction Multiplier
-    public float UniversalDMGReductionMultiplier;//90% quand pas break. 100% quand break
+    public float UniversalDamageReductionMultiplier;//90% quand pas break. 100% quand break
     public bool IsBreak;
 
     //WeakenMultiplier
@@ -60,6 +61,7 @@ public class DamageCalculator : MonoBehaviour
 
     public float DamageInOutput;
 
+    public Text DamageOutputText;
     void Start()
     {
         AttackerLevel = 0;
@@ -67,13 +69,13 @@ public class DamageCalculator : MonoBehaviour
         SkillMultiplier = 0.00f;//ex 1.50f = 150%
         ExtraMultiplier = 0.00f;
         ScalingAttribute = 0;//atk
-        ExtraDMG = 0.00f;
+        ExtraDamage = 0.00f;
 
         Base100PercentOfDamagePercentMultiplier = 1.00f;
-        ElementalDMGPercent = 0.0000f;
+        ElementalDamagePercent = 0.0000f;
         AllTypeDamagePercent = 0.00f;//Erudition du moc va ici
         DOTDamagePercent = 0.00f;
-        OtherDMGPercent = 0.00f;
+        OtherDamagePercent = 0.00f;
 
         BaseDef = 0;
         RESPercentage = 0.00f;//0 si une faiblesse, 0.20 si pas de faiblesse, 0.40 si resistant
@@ -91,22 +93,27 @@ public class DamageCalculator : MonoBehaviour
     }
     public void CalculateDamage()
     {
-        BaseDMG = (SkillMultiplier + ExtraMultiplier) * ScalingAttribute + ExtraDMG;
-        DMGPercentMultiplier = (Base100PercentOfDamagePercentMultiplier + (ElementalDMGPercent + DOTDamagePercent + OtherDMGPercent));
+        BaseDamage = (SkillMultiplier + ExtraMultiplier) * ScalingAttribute + ExtraDamage;
+        DamagePercentMultiplier = (Base100PercentOfDamagePercentMultiplier + (ElementalDamagePercent + AllTypeDamagePercent + DOTDamagePercent + OtherDamagePercent));
         DEF = (BaseDef * (Base100PercentOfDef + 0.00f - (DefReduction + DefIgnore)) + DefFlat);
-        DefMultiplier = (Base100PercentOfDef - (DEF / (DEF + Flat200 + Flat10 * AttackerLevel)));
+        DefMultiplier = (Base100PercentOfDef - (DEF / (DEF + 200 + 10 * AttackerLevel)));
         RESMultiplier = Base100PercentOfRESMultiplier - (RESPercentage - RESPENPercentage);
-        DMGTakenMultiplier = (Base100PercentOfDMGTakenMultiplier + 0.00f + 0.00f);
+        DamageTakenMultiplier = (Base100PercentOfDamageTakenMultiplier + 0.00f + 0.00f);
 
         if (IsBreak == true)
         {
-            UniversalDMGReductionMultiplier = 1.00f;
+            UniversalDamageReductionMultiplier = 1.00f;
         }
         else if (IsBreak == false)
         {
-            UniversalDMGReductionMultiplier = 0.90f;
+            UniversalDamageReductionMultiplier = 0.90f;
         }
 
-        DamageInOutput = (BaseDMG * DMGPercentMultiplier * DefMultiplier * RESMultiplier * DMGTakenMultiplier * UniversalDMGReductionMultiplier);
+        DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier);
+        DamageOutputText.text = DamageInOutput.ToString();
     }
 }
+/*Questions : 
+ * Est ce que c'est possible qu'un ennemi est de la RES PEN si oui est ce que il a des exemples.
+ * Est ce que c'est possible qu'un ennemi en plus de sa def est de la def flat supplémentaires si oui donnez des exemples.
+ */

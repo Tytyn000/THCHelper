@@ -1051,7 +1051,8 @@ namespace ERP.Discord
             var res = Methods.RunCallbacks(MethodsPtr);
             if (res != Result.Ok)
             {
-                throw new ResultException(res);
+                //si pas co envoie continuellement des erreurs
+                //throw new ResultException(res);
             }
         }
 

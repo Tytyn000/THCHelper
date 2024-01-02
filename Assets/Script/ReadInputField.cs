@@ -8,16 +8,16 @@ public class ReadInputField : MonoBehaviour
     public float SkillMultiplier; //dégats en % du skill 
     public float ExtraMultiplier; //Spécifique : apparait par exemple sur dang heng avec les ennemis ralentis
     public int ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
-    public float ExtraDMG; //dgts flat sur certains skills : 
+    public float ExtraDamage; //dgts flat sur certains skills : 
 
-    public float BaseDMG;
+    public float BaseDamage;
 
     //DMG% MULTIPLIER
     public static float Base100PercentOfDamagePercentMultiplier = 1f; //toujours 1
-    public float ElementalDMGPercent; //Bonus Elementaires
+    public float ElementalDamagePercent; //Bonus Elementaires
     public float AllTypeDamagePercent; //ex Grand Duc + 20% sur les suivis
     public float DOTDamagePercent;
-    public float OtherDMGPercent; //Buff TingYun
+    public float OtherDamagePercent; //Buff TingYun
 
     public float DMGPercentMultiplier;
 
@@ -44,19 +44,20 @@ public class ReadInputField : MonoBehaviour
     public float RESMultiplier;
 
     //DMGTakenMultiplier
-    public static float Base100PercentOfDMGTakenMultiplier = 1.00f;
-    public float ElementalDMGTakenPercentage;
-    public float AllTypeDMGTakenPercentage;
+    public static float Base100PercentOfDamageTakenMultiplier = 1.00f;
+    public float ElementalDamageTakenPercentage;
+    public float AllTypeDamageTakenPercentage;
 
-    public float DMGTakenMultiplier; //ne peut dépasser 350%
+    public float DamageTakenMultiplier; //ne peut dépasser 350%
 
     //Universal DMG Reduction Multiplier
-    public float UniversalDMGReductionMultiplier;//90% quand pas break. 100% quand break
+    public float UniversalDamageReductionMultiplier;//90% quand pas break. 100% quand break
 
     //WeakenMultiplier
     public static float Base100PercentOfWeakenMultiplier = 1.00f;//toujours 1
     public float WeakenMultiplierPercentage;
 
+    public DamageCalculator DamageCalculator;
     void Start()
     {
         print("Utiliser , a la place des . pour séparer");
@@ -101,9 +102,9 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadExtraDamageInInputField(string extraDamage)
     {
-        if (float.TryParse(extraDamage, out ExtraDMG))
+        if (float.TryParse(extraDamage, out ExtraDamage))
         {
-            Debug.Log("ExtraDMG : " + ExtraDMG);
+            Debug.Log("ExtraDMG : " + ExtraDamage);
         }
         else
         {
@@ -113,9 +114,9 @@ public class ReadInputField : MonoBehaviour
 
     public void ReadElementalDamagePercentInInputField(string elementalDamagePercent)
     {
-        if (float.TryParse(elementalDamagePercent, out ElementalDMGPercent))
+        if (float.TryParse(elementalDamagePercent, out ElementalDamagePercent))
         {
-            Debug.Log("ElementalDMGPercent : " + ElementalDMGPercent);
+            Debug.Log("ElementalDMGPercent : " + ElementalDamagePercent);
         }
         else
         {
@@ -146,9 +147,9 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadOtherDamagePercentInInputField(string otherDamagePercent)
     {
-        if (float.TryParse(otherDamagePercent, out OtherDMGPercent))
+        if (float.TryParse(otherDamagePercent, out OtherDamagePercent))
         {
-            Debug.Log("OtherDamagePercent : " + OtherDMGPercent);
+            Debug.Log("OtherDamagePercent : " + OtherDamagePercent);
         }
         else
         {
@@ -238,9 +239,9 @@ public class ReadInputField : MonoBehaviour
 
     public void ReadElementalDMGTakenPercentInInputField(string elementalDMGTakenPercentage)
     {
-        if (float.TryParse(elementalDMGTakenPercentage, out ElementalDMGTakenPercentage))
+        if (float.TryParse(elementalDMGTakenPercentage, out ElementalDamageTakenPercentage))
         {
-            Debug.Log("ElementalDMGTakenPercentage : " + ElementalDMGTakenPercentage);
+            Debug.Log("ElementalDMGTakenPercentage : " + ElementalDamageTakenPercentage);
         }
         else
         {
@@ -249,9 +250,9 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadAllTypeDMGTakenPercentageInInputField(string allTypeDMGTakenPercent)
     {
-        if (float.TryParse(allTypeDMGTakenPercent, out AllTypeDMGTakenPercentage))
+        if (float.TryParse(allTypeDMGTakenPercent, out AllTypeDamageTakenPercentage))
         {
-            Debug.Log("AllTypeDMGTakenPercentage : " + AllTypeDMGTakenPercentage);
+            Debug.Log("AllTypeDMGTakenPercentage : " + AllTypeDamageTakenPercentage);
         }
         else
         {
@@ -260,9 +261,9 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadUniversalDMGReductionMultiplier(string universalDMGReductionMultiplier)
     {
-        if (float.TryParse(universalDMGReductionMultiplier, out UniversalDMGReductionMultiplier))
+        if (float.TryParse(universalDMGReductionMultiplier, out UniversalDamageReductionMultiplier))
         {
-            Debug.Log("UniversalDMGReductionMultiplier : " + UniversalDMGReductionMultiplier);
+            Debug.Log("UniversalDMGReductionMultiplier : " + UniversalDamageReductionMultiplier);
         }
         else
         {
@@ -279,5 +280,34 @@ public class ReadInputField : MonoBehaviour
         {
             Debug.LogError("Attention valeur non conforme pour le WeakenMultiplierPercentage");
         }
+    }
+
+    public void SaveCurrentData()//enregistre et envoie les données
+    {
+        DamageCalculator.SkillMultiplier = (SkillMultiplier / 100);
+        DamageCalculator.ExtraMultiplier = (ExtraMultiplier / 100);
+        DamageCalculator.ScalingAttribute = ScalingAttribute;
+        DamageCalculator.ExtraDamage = ExtraDamage;
+
+        DamageCalculator.ElementalDamagePercent = (ElementalDamagePercent / 100);
+        DamageCalculator.AllTypeDamagePercent = (AllTypeDamagePercent / 100);
+        DamageCalculator.DOTDamagePercent = (DOTDamagePercent / 100);
+        DamageCalculator.OtherDamagePercent = (OtherDamagePercent / 100);
+
+        DamageCalculator.BaseDef = BaseDef;
+        DamageCalculator.DefReduction = (DefReduction / 100);
+        DamageCalculator.DefIgnore = (DefIgnore / 100);
+        DamageCalculator.DefFlat = DefFlat;
+        DamageCalculator.AttackerLevel = AttackerLevel;
+
+        DamageCalculator.RESPercentage = (RESPercentage / 100);
+        DamageCalculator.RESPENPercentage = (RESPENPercentage / 100);
+
+        DamageCalculator.ElementalDamageTakenPercentage = (ElementalDamageTakenPercentage / 100);
+        DamageCalculator.AllTypeDamageTakenPercentage = (AllTypeDamageTakenPercentage / 100);
+
+        DamageCalculator.UniversalDamageReductionMultiplier = (UniversalDamageReductionMultiplier / 100);
+
+        DamageCalculator.WeakenMultiplierPercentage = (WeakenMultiplierPercentage / 100);
     }
 }
