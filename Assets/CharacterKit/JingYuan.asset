@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a38aea0314a9b94382b439d6b967ca7, type: 3}
+  m_Name: JingYuan
+  m_EditorClassIdentifier: 
+  HealthPoints: 0
+  Def: 0
+  Level: 0
+  SPD: 0
+  BasicATKLev1Multiplier: 50
+  BasicATKLev2Multiplier: 60
+  BasicATKLev3Multiplier: 70
+  BasicATKLev4Multiplier: 80
+  BasicATKLev5Multiplier: 90
+  BasicATKLev6Multiplier: 100
+  BasicATKLev7Multiplier: 110
+  HasEnhancedBasicATK: 0
+  SkillLev1Multiplier: 50
+  SkillLev2Multiplier: 55
+  SkillLev3Multiplier: 60
+  SkillLev4Multiplier: 65
+  SkillLev5Multiplier: 70
+  SkillLev6Multiplier: 75
+  SkillLev7Multiplier: 81.3
+  SkillLev8Multiplier: 87.5
+  SkillLev9Multiplier: 93.8
+  SkillLev10Multiplier: 100
+  SkillLev11Multiplier: 105
+  SkillLev12Multiplier: 110
+  HasEnhacedSkills: 0
+  UltimateLev1Multiplier: 120
+  UltimateLev2Multiplier: 128
+  UltimateLev3Multiplier: 136
+  UltimateLev4Multiplier: 144
+  UltimateLev5Multiplier: 152
+  UltimateLev6Multiplier: 160
+  UltimateLev7Multiplier: 170
+  UltimateLev8Multiplier: 180
+  UltimateLev9Multiplier: 190
+  UltimateLev10Multiplier: 200
+  UltimateLev11Multiplier: 208
+  UltimateLev12Multiplier: 216
+  TalentLev1Multiplier: 33
+  TalentLev2Multiplier: 36.3
+  TalentLev3Multiplier: 39.6
+  TalentLev4Multiplier: 42.9
+  TalentLev5Multiplier: 46.2
+  TalentLev6Multiplier: 49.5
+  TalentLev7Multiplier: 53.6
+  TalentLev8Multiplier: 57.8
+  TalentLev9Multiplier: 61.9
+  TalentLev10Multiplier: 66
+  TalentLev11Multiplier: 69.3
+  TalentLev12Multiplier: 72.6
+  TechniqueMultiplier: 0
+  IsA2TracesUnlocked: 0
+  IsA4TracesUnlocked: 0
+  IsA6TracesUnlocked: 0
+  CostToLaunchUltimate: 130
+  HasASecondUltimate: 0
+  CostToLaunchSecondUltimate: 0
+  EnergyRegenerationWithBasicATK: 20
+  EnergyRegenerationWithSkills: 30
+  EnergyRegenerationWithUltimate: 5
+  EnergyRegenerationWithTalent: 0
+  EnergyRegenerationWithTechnique: 0

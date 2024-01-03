@@ -98,16 +98,7 @@ public class DamageCalculator : MonoBehaviour
         DEF = (BaseDef * (Base100PercentOfDef + 0.00f - (DefReduction + DefIgnore)) + DefFlat);
         DefMultiplier = (Base100PercentOfDef - (DEF / (DEF + 200 + 10 * AttackerLevel)));
         RESMultiplier = Base100PercentOfRESMultiplier - (RESPercentage - RESPENPercentage);
-        DamageTakenMultiplier = (Base100PercentOfDamageTakenMultiplier + 0.00f + 0.00f);
-
-        if (IsBreak == true)
-        {
-            UniversalDamageReductionMultiplier = 1.00f;
-        }
-        else if (IsBreak == false)
-        {
-            UniversalDamageReductionMultiplier = 0.90f;
-        }
+        DamageTakenMultiplier = (Base100PercentOfDamageTakenMultiplier + ElementalDamageTakenPercentage + AllTypeDamageTakenPercentage);
 
         DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier);
         DamageOutputText.text = DamageInOutput.ToString();
