@@ -33,9 +33,38 @@ public class NewTeamSimulation : MonoBehaviour
     public PlayerStats JingYuanMultiplier;
     public PlayerStats PelaMultiplier;
 
+    public int FirstCharacterMaxHP;
+    public int FirstCharacterATK;
+    public int FirstCharacterDEF;
+    public float FirstCharacterSPD;
+
+    public float FirstCharacterCritRate;
+    public float FirstCharacterCritDamage;
+
+    public float FirstCharacterBreakEffect;
+    public float FirstCharacterEnergyRegenerationRate;
+    public float FirstCharacterEffectHitRate;
+    public float FirstCharacterResToEffect;
+    public float FirstCharacterElementalDamage;
+
+    public Text FirstCharacterNameInGetFirstCharacterStat;
+
+    public GameObject BackGroundOfFirstCharacterGetStat;
+
+    public GameObject BackGroundOfChooseFirstEnnemy;
+
+    public int NumberOfEnnemyInFirstWawe;
+    public string NameOfFirstEnnemyInWawe1;
+    public int LevelOfFirstEnnemyInWawe1;
+
+    public string NameOfSecondEnnemyInWawe1;
+    public string NameOfThirdInWawe1;
+    public string NameOfFourthEnnemyInWawe1;
+    public string NameOfFifthEnnemyInWawe1;
+
     void Start()
     {
-
+        NumberOfCharacterInTeam = 1;
     }
 
     void Update()
@@ -863,4 +892,221 @@ public class NewTeamSimulation : MonoBehaviour
      * 02/01/23 jing yuan
      * 02/01/23 pela
      */
+
+    public void GetFirstCharacterStat()
+    {
+        FirstCharacterNameInGetFirstCharacterStat.text = FirstCharacterName.ToString();
+        if (NumberOfCharacterInTeam >= 2)
+        {
+            GetSecondCharacterStat();
+        }
+        else
+        {
+            ChooseEnemy();
+        }
+    }
+    public void GetFirstCharacterMaxHP(string firstCharacterMaxHP)
+    {
+        if (int.TryParse(firstCharacterMaxHP,out FirstCharacterMaxHP))
+        {
+            print(FirstCharacterMaxHP);
+        }
+        else
+        {
+            Debug.LogError("Attention avec les pv max du premier personnages");
+        } 
+    }
+    public void GetFirstCharacterATK(string firstCharacterATK)
+    {
+        if (int.TryParse(firstCharacterATK, out FirstCharacterATK))
+        {
+            print(FirstCharacterATK);
+        }
+        else
+        {
+            Debug.LogError("Attention avec l'atk du premier personnage");
+        }
+    }
+    public void GetFirstCharacterDef(string firstCharacterDef)
+    {
+        if (int.TryParse(firstCharacterDef, out FirstCharacterDEF))
+        {
+            print(FirstCharacterDEF);
+        }
+        else
+        {
+            Debug.LogError("Attention avec la def du premier personnage");
+        }
+    }
+    public void GetFirstCharacterSpd(string firstCharacterSpd)
+    {
+        if (float.TryParse(firstCharacterSpd, out FirstCharacterSPD))
+        {
+            print(FirstCharacterSPD);
+        }
+        else
+        {
+            Debug.LogError("Attention avec la vitesse du premier personnage");
+        }
+    }
+    public void GetFirstCharacterCritRate(string firstCharacterCritRate)
+    {
+        if (float.TryParse(firstCharacterCritRate, out FirstCharacterCritRate))
+        {
+            print(FirstCharacterCritRate);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec le taux crit du premier personnage");
+        }
+    }
+    public void GetFirstCharacterCritDamage(string firstCharacterCritDamage)
+    {
+        if (float.TryParse(firstCharacterCritDamage, out FirstCharacterCritDamage))
+        {
+            print(FirstCharacterCritDamage);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec le dégats crit du premier personnage");
+        }
+    }
+    public void GetFirstCharacterBreakEffect(string firstCharacterBreakEffect)
+    {
+        if (float.TryParse(firstCharacterBreakEffect, out FirstCharacterBreakEffect))
+        {
+            print(FirstCharacterBreakEffect);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec la recharge d'energie du premier personnage");
+        }
+    }
+    public void GetFirstCharacterEnergyRegenerationRate(string firstCharacterEnergyRegeneratioRate)
+    {
+        if (float.TryParse(firstCharacterEnergyRegeneratioRate, out FirstCharacterEnergyRegenerationRate))
+        {
+            print(FirstCharacterEnergyRegenerationRate);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec la recharge d'energie du premier personnage");
+        }
+    }
+    public void GetFirstCharacterEffectHitRate(string firstCharacterEffectHitRate)
+    {
+        if (float.TryParse(firstCharacterEffectHitRate, out FirstCharacterEffectHitRate))
+        {
+            print(FirstCharacterEffectHitRate);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec l'application des effets du premier personnage");
+        }
+    }
+    public void GetFirstCharacterResToEffect(string firstCharacterResToEffect)
+    {
+        if (float.TryParse(firstCharacterResToEffect, out FirstCharacterResToEffect))
+        {
+            print(FirstCharacterResToEffect);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec la res aux effets du premier personnage");
+        }
+    }
+    public void GetFirstCharacterElementalDamage(string firstCharacterElementalDamage)
+    {
+        if (float.TryParse(firstCharacterElementalDamage, out FirstCharacterElementalDamage))
+        {
+            print(FirstCharacterElementalDamage);
+        }
+        else
+        {
+            Debug.LogError("Attention erreur avec le dgts élémentaires du premier personnage");
+        }
+    }
+    public void GetSecondCharacterStat()
+    {
+        if (NumberOfCharacterInTeam >= 3)
+        {
+            GetThirdCharacterStat();
+        }
+        else
+        {
+            ChooseEnemy();
+        }
+    }
+    public void GetThirdCharacterStat()
+    {
+        if (NumberOfCharacterInTeam >= 4)
+        {
+            GetFourthCharacterStat();
+        }
+        else
+        {
+            ChooseEnemy();
+        }
+    }
+    public void GetFourthCharacterStat()
+    {
+        ChooseEnemy();
+    }
+    public void ChooseEnemy()
+    {
+        if (NumberOfCharacterInTeam >= 1)
+        {
+            if (FirstCharacterMaxHP >= 1 && FirstCharacterATK >= 1 && FirstCharacterDEF >= 1 && FirstCharacterSPD >= 1)
+            {
+                BackGroundOfFirstCharacterGetStat.SetActive(false);
+                BackGroundOfChooseFirstEnnemy.SetActive(true);
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+    public void GetNameOfFirstEnnemyInFirstWaweChooseEnemyNormalTierDropDown(int EnnemyIndex)
+    {
+        if (EnnemyIndex == 0)
+        {
+            NameOfFirstEnnemyInWawe1 = "FrostSpawn";
+            print(NameOfFirstEnnemyInWawe1);
+        }
+    }
+    public void GetLevelOfFirstEnnemyInFirstWaweDropDown(string levelOfFirstEnnemyInWawe1)
+    {
+        if (int.TryParse(levelOfFirstEnnemyInWawe1, out LevelOfFirstEnnemyInWawe1))
+        {
+            if (LevelOfFirstEnnemyInWawe1 < 1)
+            {
+                print("Erreur niveau du premier ennemie de la vague 1 trop faible");
+                return;
+            }
+            else
+            {
+                print(LevelOfFirstEnnemyInWawe1);
+                NumberOfEnnemyInFirstWawe = 1;
+            }
+        }
+        else
+        {
+            Debug.LogError("Erreur avec le niveau du premier ennemy dans la première vague");
+        }
+    }
+    public void ProceedToFight()
+    {
+        if (NumberOfEnnemyInFirstWawe >= 1)
+        {
+            if (LevelOfFirstEnnemyInWawe1 >= 1)
+            {
+                BackGroundOfChooseFirstEnnemy.SetActive(false);
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 }

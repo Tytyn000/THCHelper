@@ -71,10 +71,9 @@ public class PlayerStats : ScriptableObject
     public bool HasASecondUltimate;
     public int CostToLaunchSecondUltimate;
 
-    public int EnergyRegenerationWithBasicATK;
-    public int EnergyRegenerationWithSkills;
-    public int EnergyRegenerationWithUltimate;
-    public int EnergyRegenerationWithTalent;
-    public int EnergyRegenerationWithTechnique;
-
+    public float EnergyRegenerationWithBasicATK;
+    public float EnergyRegenerationWithSkills;
+    public float EnergyRegenerationWithUltimate;
+    public float EnergyRegenerationWithTalent;
+    public float EnergyRegenerationWithTechnique;
 }
