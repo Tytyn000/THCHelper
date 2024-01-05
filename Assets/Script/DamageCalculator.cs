@@ -104,7 +104,3 @@ public class DamageCalculator : MonoBehaviour
         DamageOutputText.text = DamageInOutput.ToString();
     }
 }
-/*Questions : 
- * Est ce que c'est possible qu'un ennemi est de la RES PEN si oui est ce que il a des exemples.
- * Est ce que c'est possible qu'un ennemi en plus de sa def est de la def flat supplémentaires si oui donnez des exemples.
- */

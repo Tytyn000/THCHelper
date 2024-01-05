@@ -2,15 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class NewTeamSimulation : MonoBehaviour
 {
     public int NumberOfCharacterInTeam;
 
     public string FirstCharacterName;
+    public GameObject FirstCharacterCard;
+    public Text FirstCharacterTextOnFirstCharacterCard;
     public string SecondCharacterName;
+    public GameObject SecondCharacterCard;
+    public Text SecondCharacterTextOnSecondCharacterCard;
     public string ThirdCharacterName;
+    public GameObject ThirdCharacterCard;
+    public Text ThirdCharacterTextOnThirdCharacterCard;
     public string FourthCharacterName;
+    public GameObject FourthCharacterCard;
+    public Text FourthCharacterTextOnFourthCharacterCard;
 
     public float SPD;
 
@@ -33,6 +42,8 @@ public class NewTeamSimulation : MonoBehaviour
     public PlayerStats JingYuanMultiplier;
     public PlayerStats PelaMultiplier;
 
+    public EnnemyStats FrostSpawn;
+
     public int FirstCharacterMaxHP;
     public int FirstCharacterATK;
     public int FirstCharacterDEF;
@@ -53,6 +64,14 @@ public class NewTeamSimulation : MonoBehaviour
 
     public GameObject BackGroundOfChooseFirstEnnemy;
 
+    public GameObject BackGroundOfFight;
+
+    public float[] MaxCharacterSPD;
+    public float[] MaxEnnemySPD;
+
+    public string FirstCharacterToPlayAtFirstRound;
+    public string FirstEnnemyToPlayAtFirstRound;
+
     public int NumberOfEnnemyInFirstWawe;
     public string NameOfFirstEnnemyInWawe1;
     public int LevelOfFirstEnnemyInWawe1;
@@ -62,6 +81,20 @@ public class NewTeamSimulation : MonoBehaviour
     public string NameOfFourthEnnemyInWawe1;
     public string NameOfFifthEnnemyInWawe1;
 
+    public int FirstEnnemyInWawe1HP;
+    public int FirstEnnemyInWawe1ATK;
+    public int FirstEnnemyInWawe1Def;
+    public int FirstEnnemyInWawe1SPD;
+
+    public float FirstCharacterEnergy;
+    public int NumberOfStackOfLightningLord;
+
+    public string FirstToPlay;
+    public int NbOfSkillsPointOfTeam = 3;
+    public bool IsSkillUsingSkillsPoint;
+    public bool IsNormalATKRestoreSkillsPoint;
+
+    public float DamageInOutput;
     void Start()
     {
         NumberOfCharacterInTeam = 1;
@@ -942,6 +975,7 @@ public class NewTeamSimulation : MonoBehaviour
     {
         if (float.TryParse(firstCharacterSpd, out FirstCharacterSPD))
         {
+            MaxCharacterSPD[0] = FirstCharacterSPD;
             print(FirstCharacterSPD);
         }
         else
@@ -1060,6 +1094,7 @@ public class NewTeamSimulation : MonoBehaviour
             {
                 BackGroundOfFirstCharacterGetStat.SetActive(false);
                 BackGroundOfChooseFirstEnnemy.SetActive(true);
+                
             }
             else
             {
@@ -1073,6 +1108,18 @@ public class NewTeamSimulation : MonoBehaviour
         {
             NameOfFirstEnnemyInWawe1 = "FrostSpawn";
             print(NameOfFirstEnnemyInWawe1);
+            if (LevelOfFirstEnnemyInWawe1 >= 1 && LevelOfFirstEnnemyInWawe1 <= 64)
+            {
+                MaxEnnemySPD[0] = FrostSpawn.SPDAtLev64;
+            }
+            else if (LevelOfFirstEnnemyInWawe1 >= 65 && LevelOfFirstEnnemyInWawe1 <= 77)
+            {
+                MaxEnnemySPD[0] = FrostSpawn.SPDAtLev77;
+            }
+            else if (LevelOfFirstEnnemyInWawe1 >= 78 && LevelOfFirstEnnemyInWawe1 <= 90)
+            {
+                MaxEnnemySPD[0] = FrostSpawn.SPDAtLev90;
+            }
         }
     }
     public void GetLevelOfFirstEnnemyInFirstWaweDropDown(string levelOfFirstEnnemyInWawe1)
@@ -1102,11 +1149,106 @@ public class NewTeamSimulation : MonoBehaviour
             if (LevelOfFirstEnnemyInWawe1 >= 1)
             {
                 BackGroundOfChooseFirstEnnemy.SetActive(false);
+                BackGroundOfFight.SetActive(true);
             }
             else
             {
                 return;
             }
         }
+    }
+    public void StartOfTheFight()
+    {
+        if (NumberOfCharacterInTeam >= 1)
+        {
+            if (MaxCharacterSPD.Max() > MaxEnnemySPD.Max())
+            {
+                if (MaxCharacterSPD.Max() == MaxCharacterSPD[0])
+                {
+                    FirstToPlay = FirstCharacterName;
+                    FirstCharacterTextOnFirstCharacterCard.text = FirstCharacterName.ToString();
+                }
+                else if (MaxCharacterSPD.Max() == MaxCharacterSPD[1])
+                {
+                    FirstToPlay = SecondCharacterName;
+                    SecondCharacterTextOnSecondCharacterCard.text = SecondCharacterName.ToString();
+                }
+                else if (MaxCharacterSPD.Max() == MaxCharacterSPD[2])
+                {
+                    FirstToPlay = ThirdCharacterName;
+                    ThirdCharacterTextOnThirdCharacterCard.text = ThirdCharacterName.ToString();
+                }
+                else if (MaxCharacterSPD.Max() == MaxCharacterSPD[3])
+                {
+                    FirstToPlay = FourthCharacterName;
+                    FourthCharacterTextOnFourthCharacterCard.text = FourthCharacterName.ToString();
+                }
+            }
+            else if (MaxCharacterSPD.Max() == MaxEnnemySPD.Max())
+            {
+                if (MaxCharacterSPD.Max() == MaxCharacterSPD[0])
+                {
+                    FirstToPlay = FirstCharacterName;
+                }
+                else if (MaxCharacterSPD.Max() == MaxCharacterSPD[1])
+                {
+                    FirstToPlay = SecondCharacterName;
+                }
+                else if (MaxCharacterSPD.Max() == MaxCharacterSPD[2])
+                {
+                    FirstToPlay = ThirdCharacterName;
+                }
+                else if (MaxCharacterSPD.Max() == MaxCharacterSPD[3])
+                {
+                    FirstToPlay = FourthCharacterName;
+                }
+            }
+            else if (MaxCharacterSPD.Max() < MaxEnnemySPD.Max())
+            {
+
+            }
+            //faire un cas pour les avancés d'action au premier tour 
+        }
+    }
+    public void FirstCharacterUseBasicATK()//bouton
+    {
+        if (FirstCharacterName.ToLower() == "jing yuan")
+        {
+            NbOfSkillsPointOfTeam++;
+            FirstCharacterEnergy += 20;
+        }
+    }
+    public void FirstCharacterUseSkill()//bouton
+    {
+        if (FirstCharacterName.ToLower() == "jing yuan" && NbOfSkillsPointOfTeam >= 1)
+        {
+            NbOfSkillsPointOfTeam--;
+            FirstCharacterEnergy += 30;
+            NumberOfStackOfLightningLord += 2;
+            if (NumberOfStackOfLightningLord > 10)
+            {
+                NumberOfStackOfLightningLord = 10;
+            }
+        }
+    }
+    public void FirstCharacterUseUltimate()//bouton
+    {
+        if (FirstCharacterName.ToLower() == "jing yuan")
+        {
+            FirstCharacterEnergy += 5;
+            NumberOfStackOfLightningLord += 3;
+            if (NumberOfStackOfLightningLord > 10)
+            {
+                NumberOfStackOfLightningLord = 10;
+            }
+        }
+    }
+    public void JingYuanLightningLordPlay()//jing yuan skill = Aoe
+    {
+
+    }
+    public void CalculateDamage()
+    {
+
     }
 }
