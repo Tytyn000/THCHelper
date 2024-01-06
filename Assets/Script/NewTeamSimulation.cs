@@ -9,17 +9,9 @@ public class NewTeamSimulation : MonoBehaviour
     public int NumberOfCharacterInTeam;
 
     public string FirstCharacterName;
-    public GameObject FirstCharacterCard;
-    public Text FirstCharacterTextOnFirstCharacterCard;
     public string SecondCharacterName;
-    public GameObject SecondCharacterCard;
-    public Text SecondCharacterTextOnSecondCharacterCard;
     public string ThirdCharacterName;
-    public GameObject ThirdCharacterCard;
-    public Text ThirdCharacterTextOnThirdCharacterCard;
     public string FourthCharacterName;
-    public GameObject FourthCharacterCard;
-    public Text FourthCharacterTextOnFourthCharacterCard;
 
     public float SPD;
 
@@ -57,6 +49,9 @@ public class NewTeamSimulation : MonoBehaviour
     public float FirstCharacterEffectHitRate;
     public float FirstCharacterResToEffect;
     public float FirstCharacterElementalDamage;
+    public float FirstCharacterAllTypeDamage;
+    public float FirstCharacterDotDamage;
+    public float FirstCharacterOtherDamage;
 
     public Text FirstCharacterNameInGetFirstCharacterStat;
 
@@ -93,6 +88,71 @@ public class NewTeamSimulation : MonoBehaviour
     public int NbOfSkillsPointOfTeam = 3;
     public bool IsSkillUsingSkillsPoint;
     public bool IsNormalATKRestoreSkillsPoint;
+
+    public bool IsIn1EnnemyConfiguration;
+    public float FirstCharacterBasicATKMultiplier;
+    public float FirstCharacterSkillMultiplier;
+    public float FirstCharacterUltimateMultiplier;
+    public float FirstCharacterTalentMultiplier;
+
+    public bool IsFirstEnnemyBroken;
+    public bool IsSecondEnnemyBroken;
+    public bool IsThirdEnnemyBroken;
+    public bool IsFourthEnnemyBroken;
+
+    //Base DMG
+    public float SkillMultiplier; //dégats en % du skill 
+    public float ExtraMultiplier; //Spécifique : apparait par exemple sur dang heng avec les ennemis ralentis
+    public int ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
+    public float ExtraDamage; //dgts flat sur certains skills : 
+
+    public float BaseDamage;
+
+    //DMG% MULTIPLIER
+    public static float Base100PercentOfDamagePercentMultiplier = 1f; //toujours 1
+    public float ElementalDamagePercent; //Bonus Elementaires
+    public float AllTypeDamagePercent; //ex Grand Duc + 20% sur les suivis
+    public float DOTDamagePercent;
+    public float OtherDamagePercent; //Buff TingYun
+
+    public float DamagePercentMultiplier;
+
+    //DEF MULTIPLIER
+    public int AttackerLevel; //niveau de l'attaquant
+    public int Flat200 = 200;
+    public int Flat10 = 10;
+    //pour trouver la def il faut une autre formule
+    //DEF
+    public float DEF; //est utiliser plus haut
+    public int BaseDef; //Def de base
+    public float DefReduction; //
+    public float DefIgnore;
+    public int DefFlat;
+    public static float Base100PercentOfDef = 1.00f; //Toujours égal a 1
+
+    public float DefMultiplier;
+
+    //RES MULTIPLIER
+    public static float Base100PercentOfRESMultiplier = 1.00f; //toujours 1
+    public float RESPercentage; //Tout les ennemis ont 20% de res donc 80%. Sauf si il y a une faiblesse c'est 0% a cette élément donc 100%. Si il est résistant il a 40% de res a cette élément donc 60%.La RES ne peut pas aller sous -100% et ne pas dépasser environ 90%
+    public float RESPENPercentage;
+
+    public float RESMultiplier;
+
+    //DMGTakenMultiplier
+    public static float Base100PercentOfDamageTakenMultiplier = 1.00f;
+    public float ElementalDamageTakenPercentage;
+    public float AllTypeDamageTakenPercentage;
+
+    public float DamageTakenMultiplier; //ne peut dépasser 350%
+
+    //Universal DMG Reduction Multiplier
+    public float UniversalDamageReductionMultiplier;//90% quand pas break. 100% quand break
+    public bool IsBreak;
+
+    //WeakenMultiplier
+    public static float Base100PercentOfWeakenMultiplier = 1.00f;//toujours 1
+    public float WeakenMultiplierPercentage;
 
     public float DamageInOutput;
     void Start()
@@ -505,30 +565,37 @@ public class NewTeamSimulation : MonoBehaviour
             if (CurrentBasicLevel == 1)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev1Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev1Multiplier;
             }
             else if (CurrentBasicLevel == 2)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev2Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev2Multiplier;
             }
             else if (CurrentBasicLevel == 3)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev3Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev3Multiplier;
             }
             else if (CurrentBasicLevel == 4)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev4Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev4Multiplier;
             }
             else if (CurrentBasicLevel == 5)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev5Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev5Multiplier;
             }
             else if (CurrentBasicLevel == 6)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev6Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev6Multiplier;
             }
             else if (CurrentBasicLevel == 7)
             {
                 BasicATKMultiplierText.text = JingYuanMultiplier.BasicATKLev7Multiplier + "%".ToString();
+                FirstCharacterBasicATKMultiplier = JingYuanMultiplier.BasicATKLev7Multiplier;
             }
         }
         else if (FirstCharacterName.ToLower() == "pela")
@@ -572,50 +639,62 @@ public class NewTeamSimulation : MonoBehaviour
             if (CurrentSkillLevel == 1)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev1Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev1Multiplier;
             }
             else if (CurrentSkillLevel == 2)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev2Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev2Multiplier;
             }
             else if (CurrentSkillLevel == 3)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev3Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev3Multiplier;
             }
             else if (CurrentSkillLevel == 4)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev4Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev4Multiplier;
             }
             else if (CurrentSkillLevel == 5)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev5Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev5Multiplier;
             }
             else if (CurrentSkillLevel == 6)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev6Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev6Multiplier;
             }
             else if (CurrentSkillLevel == 7)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev7Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev7Multiplier;
             }
             else if (CurrentSkillLevel == 8)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev8Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev8Multiplier;
             }
             else if (CurrentSkillLevel == 9)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev9Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev9Multiplier;
             }
             else if (CurrentSkillLevel == 10)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev10Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev10Multiplier;
             }
             else if (CurrentSkillLevel == 11)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev11Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev11Multiplier;
             }
             else if (CurrentSkillLevel == 12)
             {
                 SkillMultiplierText.text = JingYuanMultiplier.SkillLev12Multiplier + "%".ToString();
+                FirstCharacterSkillMultiplier = JingYuanMultiplier.SkillLev12Multiplier;
             }
         }
         else if (FirstCharacterName.ToLower() == "pela")
@@ -680,50 +759,62 @@ public class NewTeamSimulation : MonoBehaviour
             if (CurrentUltimateLevel == 1)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev1Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev1Multiplier;
             }
             if (CurrentUltimateLevel == 2)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev2Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev2Multiplier;
             }
             if (CurrentUltimateLevel == 3)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev3Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev3Multiplier;
             }
             if (CurrentUltimateLevel == 4)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev4Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev4Multiplier;
             }
             if (CurrentUltimateLevel == 5)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev5Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev5Multiplier;
             }
             if (CurrentUltimateLevel == 6)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev6Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev6Multiplier;
             }
             if (CurrentUltimateLevel == 7)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev7Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev7Multiplier;
             }
             if (CurrentUltimateLevel == 8)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev8Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev8Multiplier;
             }
             if (CurrentUltimateLevel == 9)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev9Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev9Multiplier;
             }
             if (CurrentUltimateLevel == 10)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev10Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev10Multiplier;
             }
             if (CurrentUltimateLevel == 11)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev11Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev11Multiplier;
             }
             if (CurrentUltimateLevel == 12)
             {
                 UltimateMultiplierText.text = JingYuanMultiplier.UltimateLev12Multiplier + "%".ToString();
+                FirstCharacterUltimateMultiplier = JingYuanMultiplier.UltimateLev12Multiplier;
             }
         }
         else if (FirstCharacterName.ToLower() == "pela")
@@ -787,50 +878,62 @@ public class NewTeamSimulation : MonoBehaviour
             if (CurrentTalenLevel == 1)
             {
                 TalentMultiplierText.text  = JingYuanMultiplier.TalentLev1Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev1Multiplier;
             }
             if (CurrentTalenLevel == 2)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev2Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev2Multiplier;
             }
             if (CurrentTalenLevel == 3)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev3Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev3Multiplier;
             }
             if (CurrentTalenLevel == 4)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev4Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev4Multiplier;
             }
             if (CurrentTalenLevel == 5)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev5Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev5Multiplier;
             }
             if (CurrentTalenLevel == 6)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev6Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev6Multiplier;
             }
             if (CurrentTalenLevel == 7)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev7Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev7Multiplier;
             }
             if (CurrentTalenLevel == 8)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev8Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev8Multiplier;
             }
             if (CurrentTalenLevel == 9)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev9Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev9Multiplier;
             }
             if (CurrentTalenLevel == 10)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev10Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev10Multiplier;
             }
             if (CurrentTalenLevel == 11)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev11Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev11Multiplier;
             }
             if (CurrentTalenLevel == 12)
             {
                 TalentMultiplierText.text = JingYuanMultiplier.TalentLev12Multiplier + "%".ToString();
+                FirstCharacterTalentMultiplier = JingYuanMultiplier.TalentLev12Multiplier;
             }
         }
         else if (FirstCharacterName.ToLower() == "pela")
@@ -922,8 +1025,8 @@ public class NewTeamSimulation : MonoBehaviour
         }
     }
     /*ordre d'ajout des persos
-     * 02/01/23 jing yuan
-     * 02/01/23 pela
+     * 02/01/24 jing yuan
+     * 02/01/24 pela
      */
 
     public void GetFirstCharacterStat()
@@ -1166,22 +1269,18 @@ public class NewTeamSimulation : MonoBehaviour
                 if (MaxCharacterSPD.Max() == MaxCharacterSPD[0])
                 {
                     FirstToPlay = FirstCharacterName;
-                    FirstCharacterTextOnFirstCharacterCard.text = FirstCharacterName.ToString();
                 }
                 else if (MaxCharacterSPD.Max() == MaxCharacterSPD[1])
                 {
                     FirstToPlay = SecondCharacterName;
-                    SecondCharacterTextOnSecondCharacterCard.text = SecondCharacterName.ToString();
                 }
                 else if (MaxCharacterSPD.Max() == MaxCharacterSPD[2])
                 {
                     FirstToPlay = ThirdCharacterName;
-                    ThirdCharacterTextOnThirdCharacterCard.text = ThirdCharacterName.ToString();
                 }
                 else if (MaxCharacterSPD.Max() == MaxCharacterSPD[3])
                 {
                     FirstToPlay = FourthCharacterName;
-                    FourthCharacterTextOnFourthCharacterCard.text = FourthCharacterName.ToString();
                 }
             }
             else if (MaxCharacterSPD.Max() == MaxEnnemySPD.Max())
@@ -1247,8 +1346,34 @@ public class NewTeamSimulation : MonoBehaviour
     {
 
     }
-    public void CalculateDamage()
+    public void CalculateDamage(string characterName, string firstEnnemyName, string secondEnnemyName, string thirdEnnemyName, string fourthEnnemyName)
     {
+        GetCurrentCharacterMultiplier(characterName);
+        BaseDamage = (SkillMultiplier + ExtraMultiplier) * ScalingAttribute + ExtraDamage;
+        DamagePercentMultiplier = (Base100PercentOfDamagePercentMultiplier + (ElementalDamagePercent + AllTypeDamagePercent + DOTDamagePercent + OtherDamagePercent));
+        DEF = (BaseDef * (Base100PercentOfDef + 0.00f - (DefReduction + DefIgnore)) + DefFlat);
+        DefMultiplier = (Base100PercentOfDef - (DEF / (DEF + 200 + 10 * AttackerLevel)));
+        RESMultiplier = Base100PercentOfRESMultiplier - (RESPercentage - RESPENPercentage);
+        DamageTakenMultiplier = (Base100PercentOfDamageTakenMultiplier + ElementalDamageTakenPercentage + AllTypeDamageTakenPercentage);
 
+        DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier);
     }
+    public void GetCurrentCharacterMultiplier(string characterName)
+    {
+        if (characterName.ToLower() == "jing yuan" && FirstCharacterName.ToLower() == "jing yuan")
+        {
+            SkillMultiplier = FirstCharacterSkillMultiplier;
+            ExtraMultiplier = 0;
+            ScalingAttribute = FirstCharacterATK;
+            ExtraDamage = 0;
+
+            ElementalDamagePercent = FirstCharacterElementalDamage;
+            AllTypeDamagePercent = FirstCharacterAllTypeDamage;
+            DOTDamagePercent = FirstCharacterDotDamage;
+
+        }
+    }
+    //config 1 ennemis boss
+    //config 2 ennemi moc 
+    //config 3 ennemis 1 + 2 invocations
 }
