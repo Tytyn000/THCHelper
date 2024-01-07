@@ -92,6 +92,8 @@ public class NewTeamSimulation : MonoBehaviour
     public bool IsIn1EnnemyConfiguration;
     public float FirstCharacterBasicATKMultiplier;
     public float FirstCharacterSkillMultiplier;
+    public float FirstCharacterExtraMultiplier;
+    public float FirstCharacterExtraDamage;
     public float FirstCharacterUltimateMultiplier;
     public float FirstCharacterTalentMultiplier;
 
@@ -99,6 +101,19 @@ public class NewTeamSimulation : MonoBehaviour
     public bool IsSecondEnnemyBroken;
     public bool IsThirdEnnemyBroken;
     public bool IsFourthEnnemyBroken;
+
+    public GameObject GetFirstCharacterStatPanel;
+    public GameObject ChooseEnemyConfigurationPanel;
+    public GameObject BackGroundOfInputField;
+
+    public int NumberOfEnnemy;
+
+    public GameObject GetFirstEnnemyStatsPanel;
+    public string FirstEnnemyName;
+    public GameObject GetSecondEnnemyStatPanel;
+    public string SecondEnnemyName;
+    public GameObject GetThirdEnnemyStatPanel;
+    public string ThirdEnnemyName;
 
     //Base DMG
     public float SkillMultiplier; //dégats en % du skill 
@@ -162,19 +177,13 @@ public class NewTeamSimulation : MonoBehaviour
 
     void Update()
     {
-        if (FirstCharacterName.ToLower() == "arlan")
-        {
-
-        }
-        else if (FirstCharacterName.ToLower() == "jing yuan")
-        {
-
-        }
+        
     }
-    public void CreateNewTeamSimulation()//bouton
+    public void GoToChooseCharacterPanel()//bouton
     {
-       
-
+        GetFirstCharacterStatPanel.SetActive(true);
+        BackGroundOfInputField.SetActive(false);
+        
     }
     public void GetFirstCharacter(int IndexOfFirstCharacter)
     {
@@ -1034,11 +1043,11 @@ public class NewTeamSimulation : MonoBehaviour
         FirstCharacterNameInGetFirstCharacterStat.text = FirstCharacterName.ToString();
         if (NumberOfCharacterInTeam >= 2)
         {
-            GetSecondCharacterStat();
+            
         }
         else
         {
-            ChooseEnemy();
+            
         }
     }
     public void GetFirstCharacterMaxHP(string firstCharacterMaxHP)
@@ -1163,48 +1172,7 @@ public class NewTeamSimulation : MonoBehaviour
             Debug.LogError("Attention erreur avec le dgts élémentaires du premier personnage");
         }
     }
-    public void GetSecondCharacterStat()
-    {
-        if (NumberOfCharacterInTeam >= 3)
-        {
-            GetThirdCharacterStat();
-        }
-        else
-        {
-            ChooseEnemy();
-        }
-    }
-    public void GetThirdCharacterStat()
-    {
-        if (NumberOfCharacterInTeam >= 4)
-        {
-            GetFourthCharacterStat();
-        }
-        else
-        {
-            ChooseEnemy();
-        }
-    }
-    public void GetFourthCharacterStat()
-    {
-        ChooseEnemy();
-    }
-    public void ChooseEnemy()
-    {
-        if (NumberOfCharacterInTeam >= 1)
-        {
-            if (FirstCharacterMaxHP >= 1 && FirstCharacterATK >= 1 && FirstCharacterDEF >= 1 && FirstCharacterSPD >= 1)
-            {
-                BackGroundOfFirstCharacterGetStat.SetActive(false);
-                BackGroundOfChooseFirstEnnemy.SetActive(true);
-                
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
+   
     public void GetNameOfFirstEnnemyInFirstWaweChooseEnemyNormalTierDropDown(int EnnemyIndex)
     {
         if (EnnemyIndex == 0)
@@ -1243,21 +1211,6 @@ public class NewTeamSimulation : MonoBehaviour
         else
         {
             Debug.LogError("Erreur avec le niveau du premier ennemy dans la première vague");
-        }
-    }
-    public void ProceedToFight()
-    {
-        if (NumberOfEnnemyInFirstWawe >= 1)
-        {
-            if (LevelOfFirstEnnemyInWawe1 >= 1)
-            {
-                BackGroundOfChooseFirstEnnemy.SetActive(false);
-                BackGroundOfFight.SetActive(true);
-            }
-            else
-            {
-                return;
-            }
         }
     }
     public void StartOfTheFight()
@@ -1342,38 +1295,23 @@ public class NewTeamSimulation : MonoBehaviour
             }
         }
     }
-    public void JingYuanLightningLordPlay()//jing yuan skill = Aoe
-    {
-
-    }
-    public void CalculateDamage(string characterName, string firstEnnemyName, string secondEnnemyName, string thirdEnnemyName, string fourthEnnemyName)
-    {
-        GetCurrentCharacterMultiplier(characterName);
-        BaseDamage = (SkillMultiplier + ExtraMultiplier) * ScalingAttribute + ExtraDamage;
-        DamagePercentMultiplier = (Base100PercentOfDamagePercentMultiplier + (ElementalDamagePercent + AllTypeDamagePercent + DOTDamagePercent + OtherDamagePercent));
-        DEF = (BaseDef * (Base100PercentOfDef + 0.00f - (DefReduction + DefIgnore)) + DefFlat);
-        DefMultiplier = (Base100PercentOfDef - (DEF / (DEF + 200 + 10 * AttackerLevel)));
-        RESMultiplier = Base100PercentOfRESMultiplier - (RESPercentage - RESPENPercentage);
-        DamageTakenMultiplier = (Base100PercentOfDamageTakenMultiplier + ElementalDamageTakenPercentage + AllTypeDamageTakenPercentage);
-
-        DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier);
-    }
-    public void GetCurrentCharacterMultiplier(string characterName)
-    {
-        if (characterName.ToLower() == "jing yuan" && FirstCharacterName.ToLower() == "jing yuan")
-        {
-            SkillMultiplier = FirstCharacterSkillMultiplier;
-            ExtraMultiplier = 0;
-            ScalingAttribute = FirstCharacterATK;
-            ExtraDamage = 0;
-
-            ElementalDamagePercent = FirstCharacterElementalDamage;
-            AllTypeDamagePercent = FirstCharacterAllTypeDamage;
-            DOTDamagePercent = FirstCharacterDotDamage;
-
-        }
-    }
     //config 1 ennemis boss
     //config 2 ennemi moc 
     //config 3 ennemis 1 + 2 invocations
+
+    /*UI
+     * ChooseCharacter 
+     * on choisis les 4 persos et seulement 4 pas + pas -(pour l'instant 1 flm) True
+     * on rentre les stats (spd a rajouter) dans un second temps
+     * on valide et on charge les données
+     * choix de la configuration des ennemis (1, 2, 3)
+     * choix des ennemis avec leurs stats (pv, atk, def, spd, ehr, res aux effets, Toughness, et les multipliers des skills)
+     * choix du nb de tour
+     * début du combat
+     * print les dgts (+ tard les mettre dans un calc)
+     * en priorité frappée au millieu 
+     * fin du combat
+     * 
+     * trouver une solution pour calculer en fonctions des ennemis touchés
+     */
 }

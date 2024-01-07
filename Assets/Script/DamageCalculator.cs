@@ -61,6 +61,18 @@ public class DamageCalculator : MonoBehaviour
 
     public float DamageInOutput;
 
+    public float CritRate;
+    public float CritDamage;
+
+    public float NonCritDamage;
+    public float DamageWhenCrit;
+
+    public Text NonCritDamageText;
+    public Text DamageWhenCritText;
+
+    public float CritRateChance;
+    public bool HasCrit;
+
     public Text DamageOutputText;
     void Start()
     {
@@ -81,9 +93,6 @@ public class DamageCalculator : MonoBehaviour
         RESPercentage = 0.00f;//0 si une faiblesse, 0.20 si pas de faiblesse, 0.40 si resistant
         RESPENPercentage = 0.00f;//je sais pas si c'est possible d'avoir des sommes ici
 
-        IsBreak = false;
-
-        CalculateDamage();
     }
 
     
@@ -101,6 +110,34 @@ public class DamageCalculator : MonoBehaviour
         DamageTakenMultiplier = (Base100PercentOfDamageTakenMultiplier + ElementalDamageTakenPercentage + AllTypeDamageTakenPercentage);
 
         DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier);
+        NonCritDamage = DamageInOutput;
+        CritOrNonCritHit();
+    }
+    public void CritOrNonCritHit()
+    {
+        CritRateChance = Random.Range(0.0f, 100.0f);
+        if (CritRate >= CritRateChance)
+        {
+            DamageInOutput = (DamageInOutput * (1 + CritDamage));
+            DamageWhenCrit = DamageInOutput;
+            HasCrit = true;
+            ShowFinalDamage();
+        }
+        else
+        {
+            ShowFinalDamage();
+        }
+        
+    }
+    public void ShowFinalDamage()
+    {
+        if (HasCrit == false)
+        {
+            DamageWhenCrit = (DamageInOutput * (1 + CritDamage));
+        }
         DamageOutputText.text = DamageInOutput.ToString();
+        NonCritDamageText.text = NonCritDamage.ToString();
+        DamageWhenCritText.text = DamageWhenCrit.ToString();
+        HasCrit = false;
     }
 }

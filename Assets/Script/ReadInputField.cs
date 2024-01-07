@@ -57,6 +57,9 @@ public class ReadInputField : MonoBehaviour
     public static float Base100PercentOfWeakenMultiplier = 1.00f;//toujours 1
     public float WeakenMultiplierPercentage;
 
+    public float CritRate;
+    public float CritDamage;
+
     public DamageCalculator DamageCalculator;
     void Start()
     {
@@ -281,6 +284,28 @@ public class ReadInputField : MonoBehaviour
             Debug.LogError("Attention valeur non conforme pour le WeakenMultiplierPercentage");
         }
     }
+    public void ReadCritRate(string critRate)
+    {
+        if (float.TryParse(critRate, out CritRate))
+        {
+
+        }
+        else
+        {
+            Debug.LogError("Attention valeur non conforme pour le tc");
+        }
+    }
+    public void ReadCritDamage(string critDamage)
+    {
+        if (float.TryParse(critDamage, out CritDamage))
+        {
+
+        }
+        else
+        {
+            Debug.LogError("Attention valeur non conforme pour le dgts crit");
+        }
+    }
 
     public void SaveCurrentData()//enregistre et envoie les données
     {
@@ -309,5 +334,8 @@ public class ReadInputField : MonoBehaviour
         DamageCalculator.UniversalDamageReductionMultiplier = (UniversalDamageReductionMultiplier / 100);
 
         DamageCalculator.WeakenMultiplierPercentage = (WeakenMultiplierPercentage / 100);
+
+        DamageCalculator.CritRate = CritRate;
+        DamageCalculator.CritDamage = (CritDamage / 100);
     }
 }
