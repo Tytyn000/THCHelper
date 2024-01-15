@@ -8,7 +8,7 @@ public class ReadInputField : MonoBehaviour
     public float SkillMultiplier; //dégats en % du skill 
     public float ExtraMultiplier; //Spécifique : apparait par exemple sur dang heng avec les ennemis ralentis
     public int ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
-    public float ExtraDamage; //dgts flat sur certains skills : 
+    public int ExtraDamage; //dgts flat sur certains skills : 
 
     public float BaseDamage;
 
@@ -60,6 +60,14 @@ public class ReadInputField : MonoBehaviour
     public float CritRate;
     public float CritDamage;
 
+    public float InputField1DamageRepartition;
+    public float InputField2DamageRepartition;
+    public float InputField3DamageRepartition;
+    public float InputField4DamageRepartition;
+    public float InputField5DamageRepartition;
+    public float InputField6DamageRepartition;
+    public float InputField7DamageRepartition;
+
     public DamageCalculator DamageCalculator;
     void Start()
     {
@@ -105,7 +113,7 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadExtraDamageInInputField(string extraDamage)
     {
-        if (float.TryParse(extraDamage, out ExtraDamage))
+        if (int.TryParse(extraDamage, out ExtraDamage))
         {
             Debug.Log("ExtraDMG : " + ExtraDamage);
         }
@@ -288,7 +296,7 @@ public class ReadInputField : MonoBehaviour
     {
         if (float.TryParse(critRate, out CritRate))
         {
-
+            Debug.Log("CritRate : " + CritRate);
         }
         else
         {
@@ -299,11 +307,325 @@ public class ReadInputField : MonoBehaviour
     {
         if (float.TryParse(critDamage, out CritDamage))
         {
-
+            Debug.Log("CritDamage : " + CritDamage);
         }
         else
         {
             Debug.LogError("Attention valeur non conforme pour le dgts crit");
+        }
+    }
+    public void ReadInputField1DamageRepartition(string inputField1DamageRepartition)
+    {
+        switch (inputField1DamageRepartition)
+        {
+            case "0/7" or "0 / 7":
+                InputField1DamageRepartition = 0;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "1/7"or "1 / 7":
+                InputField1DamageRepartition = 1f / 7f;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "2/7" or "2 / 7":    
+                InputField1DamageRepartition = 2f / 7f;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField1DamageRepartition = 3f / 7f;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField1DamageRepartition = 4f / 7f;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "5/7" or "5 / 7":
+                InputField1DamageRepartition = 5f / 7f;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField1DamageRepartition = 6f / 7f;
+                InputField1DamageRepartition *= 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField1DamageRepartition = 1;
+                InputField1DamageRepartition *= 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField1DamageRepartition, out InputField1DamageRepartition))
+        {
+            Debug.Log("InputField1DamageRepartition : " + InputField1DamageRepartition);
+        }
+    }
+    public void ReadInputField2DamageRepartition(string inputField2DamageRepartition)
+    {
+        switch (inputField2DamageRepartition)
+        {
+            case "0/7" or "0 / 7":
+                InputField2DamageRepartition = 0;
+                return;
+            case "1/7" or "1 / 7":
+                InputField2DamageRepartition = 1f / 7f;
+                print(InputField2DamageRepartition);
+                return;
+            case "2/7" or "2 / 7":
+                InputField2DamageRepartition = 2f / 7f;
+                InputField2DamageRepartition = InputField2DamageRepartition * 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField2DamageRepartition = 3f / 7f;
+                InputField2DamageRepartition = InputField2DamageRepartition * 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField2DamageRepartition = 4f / 7f;
+                InputField2DamageRepartition = InputField2DamageRepartition * 100;
+                return;
+            case "5/7" or "5 / 7":
+                InputField2DamageRepartition = 5f / 7f;
+                InputField2DamageRepartition = InputField2DamageRepartition * 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField2DamageRepartition = 6f / 7f;
+                InputField2DamageRepartition = InputField2DamageRepartition * 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField2DamageRepartition = 7f / 7f;
+                InputField2DamageRepartition = InputField2DamageRepartition * 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField2DamageRepartition, out InputField2DamageRepartition))
+        {
+            Debug.Log("InputField2DamageRepartition : " + InputField2DamageRepartition);
+        }
+    }
+    public void ReadInputField3DamageReparition(string inputField3DamageReparition)
+    {
+        switch (inputField3DamageReparition)
+        {
+            case "0/7" or "0 / 7":
+                InputField3DamageRepartition = 0;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "1/7" or "1 / 7":
+                InputField3DamageRepartition = 1f / 7f;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "2/7" or "2 / 7":
+                InputField3DamageRepartition = 2f / 7f;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField3DamageRepartition = 3f / 7f;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField3DamageRepartition = 4f / 7f;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "5/7" or "5 / 7":
+                InputField3DamageRepartition = 5f / 7f;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField3DamageRepartition = 6f / 7f;
+                InputField3DamageRepartition *= 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField3DamageRepartition = 1;
+                InputField3DamageRepartition *= 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField3DamageReparition, out InputField3DamageRepartition))
+        {
+            Debug.Log("InputField3DamageRepartition : " + InputField3DamageRepartition);
+        }
+    }
+    public void ReadInputField4DamageRepartition(string inputField4DamageRepartition)
+    {
+        switch (inputField4DamageRepartition)
+        {
+            case "0/7" or "0 / 7":
+                InputField4DamageRepartition = 0;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "1/7" or "1 / 7":
+                InputField4DamageRepartition = 1f / 7f;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "2/7" or "2 / 7":
+                InputField4DamageRepartition = 2f / 7f;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField4DamageRepartition = 3f / 7f;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField4DamageRepartition = 4f / 7f;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "5/7" or "5 / 77":
+                InputField4DamageRepartition = 5f / 7f;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField4DamageRepartition = 6f / 7f;
+                InputField4DamageRepartition *= 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField4DamageRepartition = 1;
+                InputField4DamageRepartition *= 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField4DamageRepartition, out InputField4DamageRepartition))
+        {
+            Debug.Log("InputField4DamageRepartition : " + InputField4DamageRepartition);
+        }
+    }
+    public void ReadInputField5DamageRepartition(string inputField5DamageRepartition)
+    {
+        switch (inputField5DamageRepartition)
+        {
+            case "0/7" or "0 / 7":
+                InputField5DamageRepartition = 0;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "1/7" or "1 / 7":
+                InputField5DamageRepartition = 1f / 7f;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "2/7" or "2 / 7":
+                InputField5DamageRepartition = 2f / 7f;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField5DamageRepartition = 3f / 7f;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField5DamageRepartition = 4f / 7f;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "5/7" or "5 / 7":
+                InputField5DamageRepartition = 5f / 7f;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField5DamageRepartition = 6f / 7f;
+                InputField5DamageRepartition *= 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField5DamageRepartition = 1;
+                InputField5DamageRepartition *= 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField5DamageRepartition, out InputField5DamageRepartition))
+        {
+            Debug.Log("InputField5DamageRepartition : " + InputField5DamageRepartition);
+        }
+    }
+    public void ReadInputField6DamageRepartition(string inputField6DamageRepartition)
+    {
+        switch (inputField6DamageRepartition)
+        {
+            case "0/7" or "0 / 7":
+                InputField6DamageRepartition = 0;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "1/7" or "1 / 20":
+                InputField6DamageRepartition = 1f / 7f;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "2/7" or "2 / 7":
+                InputField6DamageRepartition = 2f / 7f;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField6DamageRepartition = 3f / 7f;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField6DamageRepartition = 4f / 7f;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "5/7" or "5 / 7":
+                InputField6DamageRepartition = 5f / 7f;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField6DamageRepartition = 6f / 7f;
+                InputField6DamageRepartition *= 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField6DamageRepartition = 1;
+                InputField6DamageRepartition *= 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField6DamageRepartition, out InputField6DamageRepartition))
+        {
+            Debug.Log("InputField6DamageRepartition : " + InputField6DamageRepartition);
+        }
+    }
+    public void ReadInputField7DamageRepartition(string inputField7DamageRepartition)
+    {
+        switch (inputField7DamageRepartition)
+        {
+            case "0/7" or "0 / 7":
+                InputField7DamageRepartition = 0;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "1/7" or "1 / 20":
+                InputField7DamageRepartition = 1f / 7f;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "2/7" or "2 / 20":
+                InputField7DamageRepartition = 2f / 7f;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "3/7" or "3 / 7":
+                InputField7DamageRepartition = 3f / 7f;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "4/7" or "4 / 7":
+                InputField7DamageRepartition = 4f / 7f;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "5/7" or "5 / 7":
+                InputField7DamageRepartition = 5f / 7f;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "6/7" or "6 / 7":
+                InputField7DamageRepartition = 6f / 7f;
+                InputField7DamageRepartition *= 100;
+                return;
+            case "7/7" or "7 / 7":
+                InputField7DamageRepartition = 1;
+                InputField7DamageRepartition *= 100;
+                return;
+            default:
+                print("attention valeur non comprise");
+                break;
+        }
+        if (float.TryParse(inputField7DamageRepartition, out InputField7DamageRepartition))
+        {
+            Debug.Log("InputField7DamageRepartition : " + InputField7DamageRepartition);
         }
     }
 
@@ -337,5 +659,15 @@ public class ReadInputField : MonoBehaviour
 
         DamageCalculator.CritRate = CritRate;
         DamageCalculator.CritDamage = (CritDamage / 100);
+
+        DamageCalculator.DamageRepartitionAtHit1 = (InputField1DamageRepartition / 100);
+        DamageCalculator.DamageRepartitionAtHit2 = (InputField2DamageRepartition / 100);
+        DamageCalculator.DamageRepartitionAtHit3 = (InputField3DamageRepartition / 100);
+        DamageCalculator.DamageRepartitionAtHit4 = (InputField4DamageRepartition / 100);
+        DamageCalculator.DamageRepartitionAtHit5 = (InputField5DamageRepartition / 100);
+        DamageCalculator.DamageRepartitionAtHit6 = (InputField6DamageRepartition / 100);
+        DamageCalculator.DamageRepartitionAtHit7 = (InputField7DamageRepartition / 100);
+
+        DamageCalculator.SaveinPlayerPrefs();
     }
 }
