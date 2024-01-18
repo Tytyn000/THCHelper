@@ -7,8 +7,8 @@ public class ReadInputField : MonoBehaviour
     //Base DMG
     public float SkillMultiplier; //dégats en % du skill 
     public float ExtraMultiplier; //Spécifique : apparait par exemple sur dang heng avec les ennemis ralentis
-    public int ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
-    public int ExtraDamage; //dgts flat sur certains skills : 
+    public float ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
+    public float ExtraDamage; //dgts flat sur certains skills : 
 
     public float BaseDamage;
 
@@ -22,16 +22,16 @@ public class ReadInputField : MonoBehaviour
     public float DMGPercentMultiplier;
 
     //DEF MULTIPLIER
-    public int AttackerLevel; //niveau de l'attaquant
+    public float AttackerLevel; //niveau de l'attaquant
     public int Flat200 = 200;
     public int Flat10 = 10;
     //pour trouver la def il faut une autre formule
     //DEF
     public float DEF; //est utiliser plus haut
-    public int BaseDef; //Def de base
+    public float BaseDef; //Def de base
     public float DefReduction; //
     public float DefIgnore;
-    public int DefFlat;
+    public float DefFlat;
     public static float Base100PercentOfDef = 1.00f; //Toujours égal a 1
 
     public float DefMultiplier;
@@ -68,7 +68,11 @@ public class ReadInputField : MonoBehaviour
     public float InputField6DamageRepartition;
     public float InputField7DamageRepartition;
 
+    public float BaseEnnemyLevel;
+    public float SpecialEnnemyLevel;
+
     public DamageCalculator DamageCalculator;
+    public CopyScript CopyScript;
     void Start()
     {
         print("Utiliser , a la place des . pour séparer");
@@ -102,7 +106,7 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadScalingAttributeInInputField(string scalingAttribute)
     {
-        if (int.TryParse(scalingAttribute, out ScalingAttribute))
+        if (float.TryParse(scalingAttribute, out ScalingAttribute))
         {
             Debug.Log("ScalingAttribute : " + ScalingAttribute);
         }
@@ -113,7 +117,7 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadExtraDamageInInputField(string extraDamage)
     {
-        if (int.TryParse(extraDamage, out ExtraDamage))
+        if (float.TryParse(extraDamage, out ExtraDamage))
         {
             Debug.Log("ExtraDMG : " + ExtraDamage);
         }
@@ -170,7 +174,7 @@ public class ReadInputField : MonoBehaviour
 
     public void ReadAttackerLevelInInputField(string attackerLevel)
     {
-        if (int.TryParse(attackerLevel, out AttackerLevel))
+        if (float.TryParse(attackerLevel, out AttackerLevel))
         {
             Debug.Log("AttackerLevel : " + AttackerLevel);
         }
@@ -182,7 +186,7 @@ public class ReadInputField : MonoBehaviour
 
     public void ReadBaseDefInInputField(string baseDef)
     {
-        if (int.TryParse(baseDef, out BaseDef))
+        if (float.TryParse(baseDef, out BaseDef))
         {
             Debug.Log("BaseDef : " + BaseDef);
         }
@@ -215,7 +219,7 @@ public class ReadInputField : MonoBehaviour
     }
     public void ReadDefFlatInInputField(string defFlat)
     {
-        if (int.TryParse(defFlat, out DefFlat))
+        if (float.TryParse(defFlat, out DefFlat))
         {
             Debug.Log("DefFlat : " + DefFlat);
         }
@@ -629,6 +633,22 @@ public class ReadInputField : MonoBehaviour
         }
     }
 
+    public void ReadBaseEnnemyDef(string baseEnnemyDef)
+    {
+        if (float.TryParse(baseEnnemyDef, out BaseEnnemyLevel))
+        {
+            print("BaseEnnemyLevel : " + BaseEnnemyLevel);
+            CopyScript.ComputeBaseEnnemyDef();
+        }
+    }
+    public void ReadSpecialEnnemyDef(string specialEnnemyDef)
+    {
+        if (float.TryParse(specialEnnemyDef, out SpecialEnnemyLevel))
+        {
+            print("SpecialEnnemyLevel : " +  SpecialEnnemyLevel);
+            CopyScript.ComputeSpecialEnnemyDef();
+        }
+    }
     public void SaveCurrentData()//enregistre et envoie les données
     {
         DamageCalculator.SkillMultiplier = (SkillMultiplier / 100);
@@ -667,6 +687,12 @@ public class ReadInputField : MonoBehaviour
         DamageCalculator.DamageRepartitionAtHit5 = (InputField5DamageRepartition / 100);
         DamageCalculator.DamageRepartitionAtHit6 = (InputField6DamageRepartition / 100);
         DamageCalculator.DamageRepartitionAtHit7 = (InputField7DamageRepartition / 100);
+
+        DamageCalculator.BaseEnnemyLevel = BaseEnnemyLevel;
+        DamageCalculator.SpecialEnnemyLevel = SpecialEnnemyLevel;
+
+        DamageCalculator.BaseEnnemyDef = CopyScript.BaseEnnemyDef;
+        DamageCalculator.SpecialEnnemyDef = CopyScript.SpecialEnnemyDef;
 
         DamageCalculator.SaveinPlayerPrefs();
     }

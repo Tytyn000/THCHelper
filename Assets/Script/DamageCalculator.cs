@@ -8,8 +8,8 @@ public class DamageCalculator : MonoBehaviour
     //Base DMG
     public float SkillMultiplier; //d�gats en % du skill 
     public float ExtraMultiplier; //Sp�cifique : apparait par exemple sur dang heng avec les ennemis ralentis
-    public int ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
-    public int ExtraDamage; //dgts flat sur certains skills : 
+    public float ScalingAttribute; //Stats sur laquelle le skills scale le plus souvent c'est ATK
+    public float ExtraDamage; //dgts flat sur certains skills : 
     
     public float BaseDamage;
 
@@ -23,16 +23,16 @@ public class DamageCalculator : MonoBehaviour
     public float DamagePercentMultiplier;
 
     //DEF MULTIPLIER
-    public int AttackerLevel; //niveau de l'attaquant
+    public float AttackerLevel; //niveau de l'attaquant
     public int Flat200 = 200;
     public int Flat10 = 10;
     //pour trouver la def il faut une autre formule
     //DEF
     public float DEF; //est utiliser plus haut
-    public int BaseDef; //Def de base
+    public float BaseDef; //Def de base
     public float DefReduction; //
     public float DefIgnore;
-    public int DefFlat;
+    public float DefFlat;
     public static float Base100PercentOfDef = 1.00f; //Toujours �gal a 1
 
     public float DefMultiplier;
@@ -86,6 +86,12 @@ public class DamageCalculator : MonoBehaviour
     public float DamageAtHit6;
     public float DamageAtHit7;
 
+    public float BaseEnnemyLevel;
+    public float SpecialEnnemyLevel;
+
+    public float BaseEnnemyDef;
+    public float SpecialEnnemyDef;
+
     public Text SkillMultiplierText;
     public Text ExtraMultiplierText;
     public Text ScalingAttributeText;
@@ -138,6 +144,14 @@ public class DamageCalculator : MonoBehaviour
     public Text Hit5DamageText;
     public Text Hit6DamageText;
     public Text Hit7DamageText;
+
+    public Text BaseEnnemyLevelText;
+    public Text SpecialEnnemyLevelText;
+
+    public Text BaseEnnemyDefText;
+    public Text SpecialEnnemyDefText;
+
+    public CopyScript CopyScript;
     void Start()
     {
         AttackerLevel = 0;
@@ -295,27 +309,27 @@ public class DamageCalculator : MonoBehaviour
         Hit5DamageText.text = DamageAtHit5.ToString();
         Hit6DamageText.text = DamageAtHit6.ToString();
         Hit7DamageText.text = DamageAtHit7.ToString();
-        
 
-        DamageOutputText.text = (DamageAtHit1 + DamageAtHit2 + DamageAtHit3 + DamageAtHit4 + DamageAtHit5 + DamageAtHit6 + DamageAtHit7).ToString();
+        DamageInOutput = (DamageAtHit1 + DamageAtHit2 + DamageAtHit3 + DamageAtHit4 + DamageAtHit5 + DamageAtHit6 + DamageAtHit7);
+        DamageOutputText.text = DamageInOutput.ToString();
     }
     public void SaveinPlayerPrefs()
     {
         PlayerPrefs.SetFloat("SkillMultiplier", SkillMultiplier);
         PlayerPrefs.SetFloat("ExtraMultiplier", ExtraMultiplier);
-        PlayerPrefs.SetInt("ScalingAttribute", ScalingAttribute);
-        PlayerPrefs.SetInt("ExtraDamage", ExtraDamage);
+        PlayerPrefs.SetFloat("ScalingAttribute", ScalingAttribute);
+        PlayerPrefs.SetFloat("ExtraDamage", ExtraDamage);
 
         PlayerPrefs.SetFloat("ElementalDamagePercent", ElementalDamagePercent);
         PlayerPrefs.SetFloat("AllTypeDamagePercent", AllTypeDamagePercent);
         PlayerPrefs.SetFloat("DOTDamagePercent", DOTDamagePercent);
         PlayerPrefs.SetFloat("OtherDamagePercent", OtherDamagePercent);
 
-        PlayerPrefs.SetInt("BaseDef", BaseDef);
+        PlayerPrefs.SetFloat("BaseDef", BaseDef);
         PlayerPrefs.SetFloat("DefReduction", DefReduction);
         PlayerPrefs.SetFloat("DefIgnore", DefIgnore);
-        PlayerPrefs.SetInt("DefFlat", DefFlat);
-        PlayerPrefs.SetInt("AttackerLevel", AttackerLevel);
+        PlayerPrefs.SetFloat("DefFlat", DefFlat);
+        PlayerPrefs.SetFloat("AttackerLevel", AttackerLevel);
 
         PlayerPrefs.SetFloat("RESPercentage", RESPercentage);
         PlayerPrefs.SetFloat("RESPENPercentage", RESPENPercentage);
@@ -337,24 +351,39 @@ public class DamageCalculator : MonoBehaviour
         PlayerPrefs.SetFloat("DamageRepartitionAtHit5", DamageRepartitionAtHit5);
         PlayerPrefs.SetFloat("DamageRepartitionAtHit6", DamageRepartitionAtHit6);
         PlayerPrefs.SetFloat("DamageRepartitionAtHit7", DamageRepartitionAtHit7);
+
+        PlayerPrefs.SetFloat("DamageAtHit1", DamageAtHit1);
+        PlayerPrefs.SetFloat("DamageAtHit2", DamageAtHit2);
+        PlayerPrefs.SetFloat("DamageAtHit3", DamageAtHit3);
+        PlayerPrefs.SetFloat("DamageAtHit4", DamageAtHit4);
+        PlayerPrefs.SetFloat("DamageAtHit5", DamageAtHit5);
+        PlayerPrefs.SetFloat("DamageAtHit6", DamageAtHit6);
+        PlayerPrefs.SetFloat("DamageAtHit7", DamageAtHit7);
+        PlayerPrefs.SetFloat("DamageAtOutput", DamageInOutput);
+
+        PlayerPrefs.SetFloat("BaseEnnemyLevel", BaseEnnemyLevel);
+        PlayerPrefs.SetFloat("SpecialEnnemyLevel", SpecialEnnemyLevel);
+
+        PlayerPrefs.SetFloat("BaseEnnemyDef", BaseEnnemyDef);
+        PlayerPrefs.SetFloat("SpecialEnnemyDef", SpecialEnnemyDef);
     }
     public void LoadPlayerPrefs()
     {
         SkillMultiplier = PlayerPrefs.GetFloat("SkillMultiplier", 0);//recupere SkillMultiplier si SkillMultiplier n'a pas de valeurs prend la valeur par d�faut a cot� 
         ExtraMultiplier = PlayerPrefs.GetFloat("ExtraMultiplier", 0);
-        ScalingAttribute = PlayerPrefs.GetInt("ScalingAttribute", 0);
-        ExtraDamage = PlayerPrefs.GetInt("ExtraDamage", 0);
+        ScalingAttribute = PlayerPrefs.GetFloat("ScalingAttribute", 0);
+        ExtraDamage = PlayerPrefs.GetFloat("ExtraDamage", 0);
 
         ElementalDamagePercent = PlayerPrefs.GetFloat("ElementalDamagePercent", 0);
         AllTypeDamagePercent = PlayerPrefs.GetFloat("AllTypeDamagePercent", 0);
         DOTDamagePercent = PlayerPrefs.GetFloat("DOTDamagePercent", 0);
         OtherDamagePercent = PlayerPrefs.GetFloat("OtherDamagePercent", 0);
 
-        BaseDef = PlayerPrefs.GetInt("BaseDef", 0);
+        BaseDef = PlayerPrefs.GetFloat("BaseDef", 0);
         DefReduction = PlayerPrefs.GetFloat("DefReduction", 0);
         DefIgnore = PlayerPrefs.GetFloat("DefIgnore", 0);
-        DefFlat = PlayerPrefs.GetInt("DefFlat", 0);
-        AttackerLevel = PlayerPrefs.GetInt("AttackerLevel", 1);
+        DefFlat = PlayerPrefs.GetFloat("DefFlat", 0);
+        AttackerLevel = PlayerPrefs.GetFloat("AttackerLevel", 1);
 
         RESPercentage = PlayerPrefs.GetFloat("RESPercentage", 0);
         RESPENPercentage = PlayerPrefs.GetFloat("RESPENPercentage", 0);
@@ -376,6 +405,20 @@ public class DamageCalculator : MonoBehaviour
         DamageRepartitionAtHit5 = PlayerPrefs.GetFloat("DamageRepartitionAtHit5", 0);
         DamageRepartitionAtHit6 = PlayerPrefs.GetFloat("DamageRepartitionAtHit6", 0);
         DamageRepartitionAtHit7 = PlayerPrefs.GetFloat("DamageRepartitionAtHit7", 0);
+
+        DamageAtHit1 = PlayerPrefs.GetFloat("DamageAtHit1", 0);
+        DamageAtHit2 = PlayerPrefs.GetFloat("DamageAtHit2", 0);
+        DamageAtHit3 = PlayerPrefs.GetFloat("DamageAtHit3", 0);
+        DamageAtHit4 = PlayerPrefs.GetFloat("DamageAtHit4", 0);
+        DamageAtHit5 = PlayerPrefs.GetFloat("DamageAtHit5", 0);
+        DamageAtHit6 = PlayerPrefs.GetFloat("DamageAtHit6", 0);
+        DamageAtHit7 = PlayerPrefs.GetFloat("DamageAtHit7", 0);
+
+        BaseEnnemyLevel = PlayerPrefs.GetFloat("BaseEnnemyLevel", 0);
+        SpecialEnnemyLevel = PlayerPrefs.GetFloat("SpecialEnnemyLevel", 0);
+
+        BaseEnnemyDef = PlayerPrefs.GetFloat("BaseEnnemyDef", 0);
+        SpecialEnnemyDef = PlayerPrefs.GetFloat("SpecialEnnemyDef", 0);
 
         LoadTextWithValue();
     }
@@ -417,5 +460,25 @@ public class DamageCalculator : MonoBehaviour
         DamageTextOfDamageRepartitionInputField5.text = (DamageRepartitionAtHit5 * 100).ToString();
         DamageTextOfDamageRepartitionInputField6.text = (DamageRepartitionAtHit6 * 100).ToString();
         DamageTextOfDamageRepartitionInputField7.text = (DamageRepartitionAtHit7 * 100).ToString();
+
+        Hit1DamageText.text = DamageAtHit1.ToString();
+        Hit2DamageText.text = DamageAtHit2.ToString();
+        Hit3DamageText.text = DamageAtHit3.ToString();
+        Hit4DamageText.text = DamageAtHit4.ToString();
+        Hit5DamageText.text = DamageAtHit5.ToString();
+        Hit6DamageText.text = DamageAtHit6.ToString();
+        Hit7DamageText.text = DamageAtHit7.ToString();
+
+        BaseEnnemyLevelText.text = BaseEnnemyLevel.ToString();
+        SpecialEnnemyLevelText.text = SpecialEnnemyLevel.ToString();
+
+        BaseEnnemyDefText.text = BaseEnnemyDef.ToString();
+        SpecialEnnemyDefText.text = SpecialEnnemyDef.ToString();
+
+        CopyScript.BaseEnnemyLevel = BaseEnnemyLevel;
+        CopyScript.SpecialEnnemyLevel = SpecialEnnemyLevel;
+
+        CopyScript.BaseEnnemyDef = BaseEnnemyDef;
+        CopyScript.SpecialEnnemyDef = SpecialEnnemyDef;
     }
 }

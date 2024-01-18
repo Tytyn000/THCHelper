@@ -15,6 +15,19 @@ public class CopyScript : MonoBehaviour
     public Text Hit6DamageText;
     public Text Hit7DamageText;
 
+    public Text BaseEnnemyDefText;
+    public Text SpecialEnnemyDefText;
+
+    public Text DEFText;
+
+    public float BaseEnnemyDef;
+    public float SpecialEnnemyDef;
+
+    public float BaseEnnemyLevel;
+    public float SpecialEnnemyLevel;
+
+    public ReadInputField ReadInputField;
+    public DamageCalculator DamageCalculator;
     void Start()
     {
         
@@ -72,6 +85,40 @@ public class CopyScript : MonoBehaviour
         textEditor.SelectAll();
         textEditor.Copy();
     }
+    public void CopyBaseEnnemyDef()
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = BaseEnnemyDefText.text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+    }
+    public void ComputeBaseEnnemyDef()
+    {
+        BaseEnnemyDef = ReadInputField.BaseEnnemyLevel * 10 + 200;
+        BaseEnnemyDefText.text = BaseEnnemyDef.ToString();
+    }
+    public void SendBaseEnnemyDef()
+    {
+        DEFText.text = BaseEnnemyDef.ToString();
+    }
+
+    public void CopySpecialEnnemyDef()
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = SpecialEnnemyDefText.text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+    }
+    public void ComputeSpecialEnnemyDef()
+    {
+        SpecialEnnemyDef = ReadInputField.SpecialEnnemyLevel * 15 + 300;
+        SpecialEnnemyDefText.text = SpecialEnnemyDef.ToString();
+    }
+    public void SendSpecialEnnemyDef()
+    {
+        DEFText.text = SpecialEnnemyDef.ToString();
+    }
+
     public void CopyToClipboard()
     {
         TextEditor textEditor = new TextEditor();
