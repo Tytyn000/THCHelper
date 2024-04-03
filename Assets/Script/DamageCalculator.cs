@@ -202,7 +202,7 @@ public class DamageCalculator : MonoBehaviour
         {
             DamageTakenMultiplier = 3.50f;
         }
-        DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier);
+        DamageInOutput = (BaseDamage * DamagePercentMultiplier * DefMultiplier * RESMultiplier * DamageTakenMultiplier * UniversalDamageReductionMultiplier * WeakenMultiplierPercentage);
         CalculateEachHitDamage();
     }
     void CalculateEachHitDamage()
@@ -369,7 +369,7 @@ public class DamageCalculator : MonoBehaviour
     }
     public void LoadPlayerPrefs()
     {
-        SkillMultiplier = PlayerPrefs.GetFloat("SkillMultiplier", 0);//recupere SkillMultiplier si SkillMultiplier n'a pas de valeurs prend la valeur par d�faut a cot� 
+        SkillMultiplier = PlayerPrefs.GetFloat("SkillMultiplier", 0);
         ExtraMultiplier = PlayerPrefs.GetFloat("ExtraMultiplier", 0);
         ScalingAttribute = PlayerPrefs.GetFloat("ScalingAttribute", 0);
         ExtraDamage = PlayerPrefs.GetFloat("ExtraDamage", 0);
