@@ -1,89 +1,368 @@
-# TheortCraftHelper
-This is a basic damage calculator for the game "Honkai Star Rail".
-It contains only the basic functionalities to calculate damage at the moment. It cannot calculate break damage. It is not 100% accurate, and the damage calculated by this software may differ from that in the game.
-I am not affiliated with Mihoyo/Hoyoverse. The names of the characters and enemies, as well as the damage formula, do not belong to me.
+# Theorycraft Helper
 
+TheoryCraftHelper is a damage calculator for the game **Honkai: Star Rail**.  
+Its purpose is to reproduce the game's damage formulas to assist with theorycrafting, analysis, and damage estimation.
 
-Information of how to use : 
+The calculator implements several combat damage equations including:
 
-About the different panels:
-    Base Damage:
-        - The SkillMultiplier is the total multiplier of the skill. This skill can be anything: a Basic ATK, a Skill, an Ultimate, etc. For example, for JingLiu's Skill at level 10, it is 200%.
-        - The Extra Multiplier is the total multiplier of additional effects. For example, Dang Heng's Ultimate's DMG multiplier increases on slowed enemies.
-        - The scaling attribute is the statistic used to scale the skill. In most cases, it's ATK. For Blade, it is HP and ATK, so put the sum of these two stats.
-        - The Extra Damage is flat additional damage that is on some skills.
+- Standard Damage
+- Break Damage
+- Super Break Damage
+- Elation Damage
 
-    Damage % Multiplier:
-        - Elemental Damage is the total Elemental Damage. For example, a sphere at max level gives 38.80%.
-        - All Type Damage is a part of the bonus Damage. For example, Tingyun and Bronya buffs go here, as well as the effect of the 4 Musketeers set.
-        - DOT Damage is also a part of the bonus Damage. For example, the light cone "Woof! Walk Time!" can go here.
-        - Other Damage is also a part of the bonus Damage. Put all the bonuses that are not already mentioned here.
-        Note:
-            In the damage formula, this is the sum of everything, so the order in the panel is not important.
+⚠ Disclaimer
 
-   DEF Multiplier:
-    - Base DEF is the DEF of the enemy. The DEF of the majority is 200 + (EnemyLevel * 10). There is an exception for some enemies like the trot and the trotter where the DEF is 300 + (EnemyLevel * 15).
-    - DEF Reduction is the DEF reduction that is on the enemy. This can be triggered by characters like Pela or Silverwolf. It can also be triggered by LightCone like "Resolution Shines As Pearls of Sweat."
-    - DEF Ignore is the DEF ignore of the character. This can be triggered by sets like Genius of Brilliant Stars.
-    - The DEF Flat is the flat DEF of the enemy. For now, I don't know if enemies have additional DEF in addition to the DEF formula.
-    - The AttackerLevel is just the level of the attacker.
+- This project is **not affiliated with HoYoverse**.
+- Character names, enemy names and formulas belong to HoYoverse.
+- The calculator attempts to reproduce the in-game formulas as accurately as possible, but small differences may occur due to rounding or hidden internal values.
 
-    RES Multiplier:
-        - The RES is the resistance of the enemy. If the enemy is weak to the element, its RES will be 0. If it has no weakness, its RES is equal to 20%. And if it is resistant to that element, the RES is equal to 40%.
-        - The RES PEN is the resistance penetration of the character. For example, Seele in her buffed stats gets RES PEN.
-        Important Note:
-            - If SilverWolf applies his skill correctly on an enemy and it is the correct weakness but the enemy is resistant, it will be 40 - 20, therefore 20% RES.
-            - I noticed that the SilverWolf bug that implements which decreases All type RES is like increasing the RES PEN by that number or decreasing RES by that number. In my case, it is 9.3%, and the result is the same no matter if I increase or decrease (only one of the two modifications at the same time).
+Observed differences between the calculator and the game are typically **below ~1%**.
 
-    Damage Taken Multiplier:
-        - These two panels will not be frequently used, but just remember that there are only a few characters that can input values like Welt, Sampo, etc.
+---
 
-    Damage Reduction Multiplier:
-        - To simplify, if the enemy has Toughness > 0, it will be 90. If its Toughness is equal to 0 (is broken), the value will be 100.
+# Standard Damage Formula
 
-    Weaken Multiplier:
-        - Only a few characters can influence the Weaken Multiplier like Natasha, so in most cases, it will be 100%.
+Standard damage corresponds to most attacks such as **Basic ATK, Skills, Ultimates, and Follow-Up Attacks**.
 
-    Crit Rate && Crit Damage:
-        - Just fill in the Crit Rate and Crit Damage.
+![Standard Damage Formula](images/DamageFormula.webp)
 
+The formula combines several multipliers:
 
-Damage Repartition Between Each Hit:
-    Many skills in Honkai Star Rail deal damage more than once, like Dang Heng's Basic ATK, which deals 45% and 55% damage respectively.
-    Each instance of damage has a separate crit chance. The first hit can crit, and the second may not, and vice versa.
-    This panel takes the multiplier of each hit up to 7 times for better results. For example, JingLiu's skill when she is not in Spectral Transmigration state deals only 1 instance of damage. Therefore, the first input field will be 100, and all the other ones will be 0.
-    For Herta's skill, it's 30% on the first hit and 70% on the second hit. Therefore, the first input field will be 70, the second one 30, and all the others 0.
-    The sum of every input field must be equal to 100% (exception for certain skills like Topaz where it will be approximately 99.9% due to math issues).
-    For characters like Topaz, instead of percentages, you can fill in fractions like 1/7.
-    The fractions available are 0/7, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 7/7.
-    The different text in the Damage Repartition Between Each Hit Panel shows if this hit crits or not.
+- Base Damage
+- Critical Multiplier
+- Damage Boost Multiplier
+- Weaken Multiplier
+- Defense Multiplier
+- Resistance Multiplier
+- Vulnerability Multiplier
+- Damage Mitigation Multiplier
+- Broken Multiplier
 
-About Save:
-    Save Current Data:
-        When you save and quit the application and come back later, the saved values are displayed. However, these are only indicative values, and technically, the values are still stored in the script but physically, the input fields are void of value. Therefore, if you save with these input fields void, it will save 0 as the value wherever it is not filled. So make sure before saving that every input field is correctly filled.
+---
 
-    Save Button Near Damage:
-        This button copies the value of the damage field.
+# Break Damage
 
-About the damage difference:
-    The damage between this software and HSR can vary. In my tests, the difference did not go up to 1%. This issue is due to incorrect values in-game and the use of decimal values that increase the difference.
+Break damage occurs when an enemy's **Toughness bar reaches zero**.
 
-About keyboard shortcuts:
-    CTRL S: Save current data
-    CTRL Q: Close the app without saving
-    F12: Copy the total expected damage
-    F1: Copy the result of Damage Repartition At Hit 1
-    F2: Copy the result of Damage Repartition At Hit 2
-    F3: Copy the result of Damage Repartition At Hit 3
-    F4: Copy the result of Damage Repartition At Hit 4
-    F5: Copy the result of Damage Repartition At Hit 5
-    F6: Copy the result of Damage Repartition At Hit 6
-    F7: Copy the result of Damage Repartition At Hit 7
+![Break Damage Formula](images/BreakDamageFormula.webp)
 
-About other things:
-    There is a voluntary empty space below.
-    Not a definitive version; updates can arrive with a better UI, more possibilities, and precision.
+Break damage depends mainly on:
 
-Special thanks:
-    Thanks to https://www.prydwen.gg and the people who helped me with their explanations of the damage formula.
-    If you use this software, I hope you enjoy it and find it useful.
+- Ability Multiplier
+- Break Element
+- Target Toughness
+- Break Effect
+- Break Damage Increase
+- Vulnerability modifiers
+- Defense Multiplier
+- Resistance Multiplier
+- Damage Mitigation
+- Broken Multiplier
+
+Break damage **does not scale with ATK/HP/DEF** like standard attacks.
+
+---
+
+# Super Break Damage
+
+Super Break damage is triggered by mechanics interacting with **weakness break and toughness reduction**.
+
+![Super Break Formula](images/SuperBreakDamageFormula.webp)
+
+Additional parameters include:
+
+- Toughness Reduction
+- Level Multiplier
+- Ability Multiplier
+- Break Effect
+- Break Damage Increase
+- Super Break Damage Increase
+- Defense Multiplier
+- Resistance Multiplier
+- Vulnerability Multiplier
+- Damage Mitigation Multiplier
+- Broken Multiplier
+
+---
+
+# Elation Damage
+
+Elation damage follows a special formula tied to **Elation mechanics**.
+
+![Elation Damage Formula](images/ElationDamageFormula.webp)
+
+Additional multipliers include:
+
+- Punchline Multiplier
+- Merrymake Multiplier
+
+Along with the usual combat multipliers:
+
+- Base Damage
+- Critical Multiplier
+- Weaken Multiplier
+- Defense Multiplier
+- Resistance Multiplier
+- Vulnerability Multiplier
+- Damage Mitigation Multiplier
+- Broken Multiplier
+
+---
+
+# Calculator Panels
+
+The calculator UI separates the formula into several panels corresponding to the multipliers used in the formulas.
+
+---
+
+## Base Damage
+
+Defines the base value of the attack using:
+
+- Ability Multiplier
+- Character scaling attribute
+- Additional multipliers
+- Flat extra damage
+
+---
+
+## Damage Boost Multiplier
+
+Represents additive damage bonuses affecting the attack:
+
+- Elemental Damage Bonus
+- Generic Damage Bonus
+- Conditional Damage Bonuses
+- Damage over Time bonuses
+
+All bonuses in this category are summed before being applied.
+
+---
+
+## Defense Multiplier
+
+Represents the effect of enemy defense on damage.
+
+It depends on:
+
+- Enemy DEF
+- DEF Reduction
+- DEF Ignore
+- Attacker Level
+
+---
+
+## Resistance Multiplier
+
+Represents the target’s resistance to the attack element.
+
+It includes:
+
+- Elemental resistance
+- Resistance penetration (RES PEN)
+
+---
+
+## Vulnerability Multiplier
+
+Represents effects that increase the damage received by the enemy.
+
+Includes:
+
+- Element-specific vulnerability
+- All-type vulnerability
+- Break damage vulnerability
+
+---
+
+## Damage Mitigation Multiplier
+
+Represents enemy damage reduction effects.
+
+---
+
+## Weaken Multiplier
+
+Represents debuffs that increase the damage dealt to enemies.
+
+---
+
+## Critical Multiplier
+
+Uses the attacker's:
+
+- Crit Rate
+- Crit Damage
+
+to compute expected damage.
+
+---
+
+# Break Damage Panel
+
+Allows calculating **Weakness Break damage**.
+
+### Base Damage
+
+Uses:
+
+- Ability Multiplier
+- Target Toughness
+- Break Element
+
+### Bonus Damage
+
+Includes:
+
+- Break Effect
+- Break DMG Increase
+
+### Vulnerability Multiplier
+
+Includes:
+
+- Element vulnerability
+- All-type vulnerability
+- Break damage vulnerability
+
+---
+
+# Super Break Damage Panel
+
+Introduces a **Toughness Reduction calculation**.
+
+### Toughness Reduction
+
+Computed using:
+
+- Base Toughness Reduction
+- Additive Toughness Reduction
+- Toughness Reduction Increase
+- Weakness Break Efficiency
+- Toughness Vulnerability
+
+### Ability Multiplier
+
+Scaling applied to the Super Break damage.
+
+### Break Multiplier
+
+Includes:
+
+- Break Effect
+- Break DMG Increase
+- Super Break DMG Increase
+
+---
+
+# Elation Damage Panel
+
+Computes damage related to **Elation mechanics**.
+
+### Base Damage
+
+Uses:
+
+- Ability Multiplier
+- Elation bonus
+
+### Punchline Multiplier
+
+Determined by:
+
+- Certified Banger
+- Punchline
+- Punchline multiplier source
+
+### Merrymake Multiplier
+
+Additional multiplier based on the Merrymake stat.
+
+---
+
+# Damage Repartition Between Each Hit
+
+Many abilities deal damage **multiple times**.
+
+The calculator allows the damage to be distributed across **up to 10 hits**.
+
+For each hit, the following parameters can be configured:
+
+### Hit Multiplier
+
+Defines the percentage of the ability's total damage assigned to the hit.
+
+The sum of all hit multipliers should equal **100% of the ability multiplier**.
+
+### Damage Type
+
+Each hit can independently use a different damage calculation:
+
+- Standard Damage
+- Break Damage
+- Super Break Damage
+- Elation Damage
+
+This allows modeling complex abilities that trigger multiple mechanics in a single attack.
+
+### Critical Hit Control
+
+Each hit can independently be set to **crit or not crit**, allowing precise simulation of damage outcomes.
+
+### Additional Damage Mechanics
+
+Hits can independently trigger:
+
+- Break damage
+- Super Break damage
+- Elation damage
+
+This allows reproducing advanced combat interactions.
+
+### Damage Output
+
+For each hit, the calculator displays the **resulting damage value** and allows copying it directly.
+
+---
+
+# Save System
+
+The application allows saving the current values entered in the calculator.
+
+Important behavior:
+
+- Saved values are restored when reopening the application.
+- Empty input fields are saved as **0**.
+
+---
+
+# Accuracy
+
+The calculator aims to reproduce the damage formulas used in **Honkai: Star Rail** as accurately as possible.
+
+Small discrepancies may occur due to:
+
+- hidden decimal precision
+- rounding differences
+- unknown internal constants
+
+Observed differences remain **below ~1% in tests**.
+
+---
+
+# Special Thanks
+
+Thanks to the theorycrafting community for their research on the damage formulas.
+
+---
+
+# Project Status
+
+This project is **not a final version**.
+
+Future updates may include:
+
+- improved UI
+- additional combat mechanics
+- improved formula precision
+- support for future damage systems introduced in the game.

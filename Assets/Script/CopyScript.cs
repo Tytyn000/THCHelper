@@ -14,6 +14,9 @@ public class CopyScript : MonoBehaviour
     public Text Hit5DamageText;
     public Text Hit6DamageText;
     public Text Hit7DamageText;
+    public Text Hit8DamageText;
+    public Text Hit9DamageText;
+    public Text Hit10DamageText;
 
     public Text BaseEnnemyDefText;
     public Text SpecialEnnemyDefText;
@@ -85,6 +88,28 @@ public class CopyScript : MonoBehaviour
         textEditor.SelectAll();
         textEditor.Copy();
     }
+    public void CopyHit8Damage()
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = Hit8DamageText.text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+    }
+    public void CopyHit9Damage()
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = Hit9DamageText.text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+    }
+    public void CopyHit10Damage()
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = Hit10DamageText.text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+    }
+
     public void CopyBaseEnnemyDef()
     {
         TextEditor textEditor = new TextEditor();
